@@ -1,0 +1,65 @@
+.themes-container {
+  height:  100vh;
+  width:  20%;
+  z-index: 1;
+}
+
+.main-themes-container {
+  background-color: black;
+  height:  100%;
+}
+
+ .theme {
+    font-size: 28px;
+    text-align: center;
+    height: 140px;
+    margin: 4px;
+}
+
+.theme:hover {
+  cursor: pointer;
+}
+
+.theme-delete-icon {
+  position: relative;
+  bottom: 40px;
+}
+
+.theme-delete-icon .delete-icon {
+  width: 20px;
+  height:  20px;
+}
+
+.theme-title {
+  width:  80%;
+  float: left;
+  line-height: 140px;
+  margin: auto;
+}
+
+.theme-title span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 28px;
+}
+
+.add-theme {
+  font-size: 2em;
+  text-align: center;
+  height: 100px;
+  line-height: 100px;
+  flex-direction: row;
+  border:  2px solid black;
+  border-radius: 10px;
+}
+
+.add-theme:hover {
+  cursor: pointer;
+}
+
+.add-theme-title {
+    font-size: 14px;
+    line-height: 14px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}

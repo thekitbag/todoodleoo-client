@@ -1,0 +1,68 @@
+#non-fixed-content{
+    position: relative;
+}
+.delete-icon {
+    height: 34px;
+    width: 34px;
+    float:  right;
+}
+
+.edit-pencil {
+  height: 20px;
+  float: right;
+}
+
+.edit-pencil:hover {
+  cursor: pointer;
+}
+
+.theme-blob {
+  height: 80px;
+  width:  25px;
+  border-radius: 4px;
+}
+
+.cta-container {
+  float: left;
+}
+
+.status-container {
+  float:  right;
+}
+
+.card-outline {
+    margin-top: 8px;
+    height: 144px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: transparent;
+    opacity: 0.25;
+}
+
+
+.status-pill {
+    background-color: grey;
+    width: -moz-fit-content;
+    width: fit-content;
+    border-radius: 8px;
+    font-size: 20px;
+    padding: 2px 6px 2px 6px;
+    margin-bottom: 12px;
+}
+
+.in-progress {
+  background-color: #DAC57D;
+}
+
+.to-do {
+  background-color: #BFB2B2;
+}
+
+.done {
+  background-color: #0d471c;
+  color: white;
+}
+
+.ctas-container {
+  float: right;
+}

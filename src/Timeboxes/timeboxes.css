@@ -1,0 +1,24 @@
+.main-timeboxes-container {
+	background-color: black;
+	height:  100%;
+}
+
+.timebox-goals {
+	display: flex;
+	width: fit-content;
+}
+
+.timebox-goal {
+    font-size: 24px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-left: 5%;
+    padding: 6px;
+    text-align: center;
+    font-weight: 700;
+    background-color: #E0BFB8;
+}
+
+.timebox-status {
+	font-weight: 800;
+}

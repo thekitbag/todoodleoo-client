@@ -1,0 +1,29 @@
+.header {
+  height:  80px;
+  width: 100%;
+}
+
+
+.logo {
+  font-size: 36px;
+  margin-top: 36px;
+  font-family: monospace;
+}
+
+.logo:hover {
+  cursor: pointer;
+}
+
+.username {
+  font-size: 18px;
+  font-weight:  600;
+  margin-bottom: 8px;
+}
+
+.auth-buttons {
+  line-height: 80px;
+}
+
+.auth-buttons .btn {
+  margin-left: 6px;
+}

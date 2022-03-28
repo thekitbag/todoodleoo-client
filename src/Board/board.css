@@ -1,0 +1,27 @@
+.component-container {
+	background-color: whitesmoke;
+	height:  100%;
+	border-radius: 16px;
+    box-shadow: 5px 5px 30px;
+}
+
+.component-title {
+	font-size: 36px;
+	font-weight: 600;
+	text-align: center;
+	padding-top: 24px;
+}
+
+.goals-group .form-control {
+	display: inline;
+	width: 29%;
+	margin-top: 6px;
+	margin-left:  2%;
+	margin-right:  2%;
+}
+
+.new-user-copy {
+    font-size: 32px;
+    margin: auto;
+    text-align: justify;
+}
