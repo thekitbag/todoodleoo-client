@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap';
-import axios from 'axios';
 import './board.css';
+import { getRequest, postRequest }from './../API/api.js'
 import Themes from './../Themes/Themes.js'
 import Backlog from './../Backlog/Backlog.js'
 import Timeboxes from './../Timeboxes/Timeboxes.js'
@@ -36,10 +36,11 @@ class Board extends React.Component {
   	}
 
   	deleteTask = (taskId) => {
-  		axios.post('/delete_task', {
+			const data = {
   			task_id: taskId,
   			project_id: this.state.projectId
-  		})
+  		}
+			const r = postRequest('/delete_task', data)
   		const tasks = this.state.tasks.filter(t => t.id !== taskId)
   		this.setState(prevState => ({
 		    	tasks: tasks,
@@ -48,10 +49,11 @@ class Board extends React.Component {
   	}
 
   	deleteTheme = (themeId) => {
-  		axios.post('/delete_theme', {
+			const data = {
   			theme_id: themeId,
   			project_id: this.state.projectId
-  		})
+  		}
+			postRequest('/delete_theme', data)
   		const themes = this.state.themes.filter(t => t.id !== themeId)
   		this.setState(prevState => ({
 		    	themes: themes,
@@ -63,7 +65,7 @@ class Board extends React.Component {
 	  		this.setState(prevState => ({
 		    	visibleTasks: filteredTasks,
 		    	filtering: true
-		    }));	
+		    }));
   	}
 
   	clearFilters = () => {
@@ -71,14 +73,14 @@ class Board extends React.Component {
   	}
 
   	getTasks = async (projectId) => {
-    const resp = await axios.get(`/get_tasks?project_id=${projectId}`)
-    const timeboxes = resp.data['timeboxes']
-    const themes = resp.data['themes']
-    this.setState({ tasks: resp.data['tasks'],
-    								visibleTasks: resp.data['tasks'], 
-    								themes:themes, 
-    								timeboxes: timeboxes 
-    							});
+			const resp = await getRequest('/get_tasks', `project_id=${projectId}`)
+	    const timeboxes = resp.data['timeboxes']
+	    const themes = resp.data['themes']
+	    this.setState({ tasks: resp.data['tasks'],
+	    								visibleTasks: resp.data['tasks'],
+	    								themes:themes,
+	    								timeboxes: timeboxes
+	    							});
   };
 
   	checkForInProgressTimeboxes = (timeboxes) => {
@@ -90,7 +92,7 @@ class Board extends React.Component {
     })
 
   	}
-  	
+
    	async componentDidMount() {
    		const sp = new URLSearchParams(this.props.location.query);
 			const projectId = Number(sp.get("projectId"))
@@ -101,7 +103,7 @@ class Board extends React.Component {
 				await this.getTasks(projectId);
 				this.checkForInProgressTimeboxes(this.state.timeboxes) //why is this function essential for rendrering anything????
 			}
-    	
+
     }
 
     onDragEnd = async (result) => {
@@ -127,29 +129,30 @@ class Board extends React.Component {
   		if (destination.droppableId.slice(0,5) === 'Theme') {
   			//landed on a theme, keep timebox the same and update the theme
   			const themeId = Number(destination.droppableId.slice(6,11))
-  			axios.post('/update_task_theme', {
-  			project_id: this.state.projectId,
-  			task_id: taskId,
-  			theme_id: themeId
-  			})
+				const data = {
+	  			project_id: this.state.projectId,
+	  			task_id: taskId,
+	  			theme_id: themeId
+				}
+				postRequest('/update_task_theme', data)
 
 	  		const themeObj = this.state.themes.find(o => o.id === themeId)
 
 	  		obj.theme = themeObj.title
 	  		obj.theme_color = themeObj.color
 
-  		} 
+  		}
 
   		else if (destination.droppableId.slice(0,7) === 'Timebox') {
   			//landed in a timebox - get timebox, remove from tasks, update timebox and put back in new position
   			const timebox = destination.droppableId.slice(8,)
-
-  			axios.post('/update_task', {
-	  			project_id: this.state.projectId,
-	  			task_id: taskId,
-	  			priority: result.destination.index,
-	  			timebox: timebox
-	  		})
+				const data = {
+					project_id: this.state.projectId,
+					task_id: taskId,
+					priority: result.destination.index,
+					timebox: timebox
+				}
+				postRequest('/update_task', data)
 
 	  		obj.timebox = timebox
 
@@ -163,21 +166,22 @@ class Board extends React.Component {
 
 			else if (destination.droppableId === 'Backlog') {
 				//landed in backlog - remove from source list, add to backlog and update state with all the updated lists
-  		  axios.post('/update_task', {
-  			project_id: this.state.projectId,
-  			task_id: taskId,
-  			priority: result.destination.index,
-  			timebox: destination.droppableId
-  		})
-	  	
+				const data = {
+	  			project_id: this.state.projectId,
+	  			task_id: taskId,
+	  			priority: result.destination.index,
+	  			timebox: destination.droppableId
+	  		}
+				postRequest('/update_task', data)
+
 	  	const destinationList = this.state.tasks.filter(t => t.timebox === destination.droppableId);
 	  	const otherTasks = this.state.tasks.filter(t => t.timebox !== destination.droppableId);
-			
+
 			if (source.droppableId === destination.droppableId) {
 				//same list so simply take it out and put it bakc in new position
 				let backlogTasks = this.state.tasks.filter(t => t.timebox === source.droppableId);
 				backlogTasks = this.state.tasks.filter(t => t !== obj);
-						
+
 				backlogTasks.splice(result.destination.index,0, obj)
 				this.setState({
 		    	tasks: backlogTasks,
@@ -196,7 +200,7 @@ class Board extends React.Component {
 		} else {
 			console.log('Unexpected drop destination')
 		}
-  				
+
   	}
 
 
@@ -207,29 +211,29 @@ class Board extends React.Component {
 							onDragUpdate={this.onDragUpdate}
 						>
 							<div className='board row mt-5' style={{margin: 0}}>
-								<Themes 
-									themes={this.state.themes} 
-									filterByTheme={this.filterByTheme} 
+								<Themes
+									themes={this.state.themes}
+									filterByTheme={this.filterByTheme}
 									projectId={this.state.projectId}
 									addTheme={this.addTheme}
 									deleteTheme={this.deleteTheme}
 									filtering={this.state.filtering}
 									clearFilters={this.clearFilters}
 								/>
-								<Backlog 
+								<Backlog
 									projectId={this.state.projectId}
 								  tasks={this.state.visibleTasks}
 								  addTask={this.addTask}
 								  deleteTask={this.deleteTask}
 								/>
-								<Timeboxes 
+								<Timeboxes
 									addTimebox={this.addTimebox}
 									timeboxes={this.state.timeboxes}
 									tasks={this.state.visibleTasks}
 									projectId={this.state.projectId}
-								/>		
+								/>
 						 	</div>
-						</DragDropContext> 
+						</DragDropContext>
 						)
 					: <div></div>
 	}

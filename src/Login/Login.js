@@ -23,7 +23,7 @@ class Login extends React.Component {
       }
     });
       event.preventDefault()
-      this.setState({username : '', password: ''})   
+      this.setState({username : '', password: ''})
   };
   render() {
     return <div className='login-page'>
@@ -33,11 +33,11 @@ class Login extends React.Component {
               <div id='error'></div>
               <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
-                  <input type="text" 
+                  <input type="text"
                     className='form-control form-control-lg m-2'
-                    placeholder="Username" 
+                    placeholder="Username"
                     onChange={event => this.setState({ username: event.target.value })}
-                    value={this.state.username} 
+                    value={this.state.username}
                   />
                 </div>
                 <div>
@@ -60,4 +60,4 @@ class Login extends React.Component {
   }
 }
 
-export default  Login 
+export default  Login
