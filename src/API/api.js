@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 //const prefix = 'https://todoodleoo-server.herokuapp.com'
-const prefix = 'http://localhost:5000'
+let prefix = ''
+if (process.env.NODE_ENV === 'production') {
+  prefix = 'https://todoodleoo-server.herokuapp.com'
+} else {
+  prefix = 'http://localhost:5000'
+}
+
 
 const getRequest = async (endpoint, params) => {
   const headers = {
