@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const prefix = 'http://localhost:5000' //'https://todoodleoo-server.herokuapp.com'
+const prefix = 'https://todoodleoo-server.herokuapp.com' // 'http://localhost:5000'
 
 const getRequest = async (endpoint, params) => {
   const headers = {
