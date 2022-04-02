@@ -1,9 +1,10 @@
 import React from 'react'
 import { AddTimebox } from './../Forms/AddItem.js'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
-import axios from 'axios';
 import {TimeboxTask} from './../Task/Task.js';
 import './timeboxes.css';
+import { postRequest }from './../API/api.js'
+
 
 const TimeboxesExplainer = (props) => {
 	return 	<div className='col-12 new-user-copy'>
@@ -38,12 +39,12 @@ class Timebox extends React.Component {
 	startTask = async (taskId) => {
 
 		try {
-      			await axios.post('/update_task_status', {
+			const data = {
 				task_id: taskId,
-				target_status: 'In Progress' 
-			})
-      		this.updateTaskState(taskId, 'In Progress')
-
+				target_status: 'In Progress'
+			}
+			postRequest('/update_task_status', data)
+      this.updateTaskState(taskId, 'In Progress')
     } catch (err) {
       console.log('Task Update Failed');
     }
@@ -51,10 +52,11 @@ class Timebox extends React.Component {
 
   	completeTask = async (taskId) => {
   		try {
-  				await axios.post('/update_task_status', {
-  				task_id: taskId,
-  				target_status: 'Done'
-  			})
+				const data = {
+					task_id: taskId,
+					target_status: 'Done'
+				}
+				postRequest('/update_task_status', data)
   			this.updateTaskState(taskId, 'Done')
   		} catch (err) {
   			console.log('Task Update Failed')
@@ -63,17 +65,18 @@ class Timebox extends React.Component {
 
   	reopenTask = async (taskId) => {
   		try {
-  				await axios.post('update_task_status', {
-  				task_id: taskId,
-  				target_status: 'To Do'
-  			})
+				const data = {
+					task_id: taskId,
+					target_status: 'To Do'
+				}
+				postRequest('/update_task_status', data)
   			this.updateTaskState(taskId, 'To Do')
   		} catch (err) {
   			console.log('Task Update Failed')
   		}
 
   	}
-  	
+
 
 	render() {
 		return  <Droppable droppableId={'Timebox:' + this.props.title}>
@@ -94,10 +97,10 @@ class Timebox extends React.Component {
 												<Draggable key={task.id} draggableId={String(task.id)} index={index}>
 													{provided => (
 
-														<div  
+														<div
 															ref={provided.innerRef}
 															{...provided.draggableProps}
-							      					        {...provided.dragHandleProps}		
+							      					        {...provided.dragHandleProps}
 									    			    >
 													<TimeboxTask
 														{...task}
@@ -124,8 +127,8 @@ class Timeboxes extends React.Component {
 				  <div className='component-container'>
 				    <div className='component-title'>
 				  		<span>Timeboxes</span>
-				  	</div> 	
-				  	<AddTimebox 
+				  	</div>
+				  	<AddTimebox
 				  	  projectId={this.props.projectId}
 				  	  updateTimeboxes={this.props.addTimebox}
 				  	/>
@@ -141,8 +144,8 @@ class Timeboxes extends React.Component {
 								tasks={this.props.tasks.filter(t => t.timebox === timebox.title)}
 								{...timebox}
 							 />
-					  		)}	
-				  		
+					  		)}
+
 					</div>
 				  </div>
 				</div>

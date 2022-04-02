@@ -1,8 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import pencil from './../img/pencil.svg';
 import deleteIcon from './../img/delete_icon.png';
 import './task.css';
+import { postRequest }from './../API/api.js'
+
 
 
 
@@ -15,8 +16,8 @@ class Task extends React.Component {
 	    this.state = {
 	    	//projectId: this.props.projectId,
 	        id: this.props.id,
-			title: this.props.title, 
-			status:this.props.status, 
+			title: this.props.title,
+			status:this.props.status,
 			priority: this.props.priority,
 			theme: this.props.theme,
 			epic: this.props.epic,
@@ -39,26 +40,28 @@ class Task extends React.Component {
 
 	save = (event) => {
 		this.setState({editing: false})
-		axios.post('/edit_task', {
+		const data = {
 		  id: this.state.id,
 		  title: this.state.title,
 		  status: this.state.status,
 		  theme: this.state.theme,
 		  timeboxes: this.state.timeboxes,
 		  priority: this.state.priority
-		});
+		}
+		postRequest('/edit_task', data)
 	}
 
 	editTaskName = (event) => {
 		event.preventDefault()
 		this.setState({editing: false})
-		axios.post('/edit_task', {
+		const data = {
 		  id: this.state.id,
 		  title: this.state.title,
 		  status: this.state.status,
 		  theme: this.state.theme,
 		  priority: this.state.priority
-		});
+		}
+		postRequest('/edit_task', data)
 	}
 
 	getThemeColor = (themeName) => {
@@ -97,19 +100,19 @@ class Task extends React.Component {
 								</div>
 								<div className='row'>
 									<div className='col-10'>
-										
+
 									</div>
 								</div>
 								<div className='row'>
-									
+
 								</div>
-							</div> ) 
+							</div> )
 
 							:(
 
 							<div className='card-body'>
 								<div className='row'>
-									<div className='col-6'>							
+									<div className='col-6'>
 										<div class='btn btn-primary' onClick={this.save}>Save</div>
 									</div>
 								</div>
@@ -119,11 +122,11 @@ class Task extends React.Component {
 									 	<div className='form-group'>
 											<textarea
 												className='form-control form-control mt-1 mb-1'
-									            type="text" 
+									            type="text"
 									            value={this.state.title}
 									            onChange={event => this.setState({ title: event.target.value })}
 									            placeholder= {this.state.title}
-									            required 
+									            required
 									        />
 									        <select className="form-select mt-1 mb-1" onChange={event => this.setState({ theme: event.target.value, themeColor: this.getThemeColor(event.target.value) })}>
 											  <option defaultValue >{this.state.theme}</option>
@@ -134,8 +137,8 @@ class Task extends React.Component {
 											  }
 											   )};
 											</select>
-											
-											
+
+
 										</div>
 									 </form>
 									</div>
@@ -181,7 +184,7 @@ class TimeboxTask extends React.Component {
 		let btn = <div className='btn btn-primary'></div>
 
 		if (props.status === 'To Do') {
-			btn = <div 
+			btn = <div
 					className='btn btn-primary'
 					onClick={() => startTask()}
 				  >
@@ -208,10 +211,10 @@ class TimeboxTask extends React.Component {
 	}
 
 	render() {
-		return  <Task 
+		return  <Task
 				  {...this.props}
 				  status={<this.Status status={this.props.status}/>}
-				  ctas={<this.CTAs 
+				  ctas={<this.CTAs
 				  			status={this.props.status}
 				  			startTask={this.props.startTask}
 				  			completeTask={this.props.completeTask}
@@ -224,7 +227,7 @@ class TimeboxTask extends React.Component {
 class BacklogTask extends React.Component {
 	render() {
 		console.log(this.props)
-		return <Task 
+		return <Task
 				{...this.props}
 				editable={true}
 				deleteable={true}

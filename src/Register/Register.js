@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import './register.css';
+import { postRequest }from './../API/api.js'
+
 
 class Register extends React.Component {
 
@@ -8,15 +9,17 @@ class Register extends React.Component {
 
 	signUp = (event) => {
 		event.preventDefault()
-		axios.post('/auth/register', {
+		const data = {
 			username: this.state.username,
 			password: this.state.password,
-		}).then((response) => {
+		}
+		postRequest('/auth/register', data)
+		.then((response) => {
 		  console.log(response.data)
 		}, (error) => {
 		  console.log(error);
 		});
-    	this.setState({username: '', password: ''})   
+    	this.setState({username: '', password: ''})
   	};
 
 	render() {
@@ -28,19 +31,19 @@ class Register extends React.Component {
 								<div className='form-group'>
 									<input
 									className='form-control form-control-lg m-2'
-						          	type="text" 
+						          	type="text"
 						          	value={this.state.username}
 						          	onChange={event => this.setState({ username: event.target.value })}
-						          	placeholder="Username" 
-						          	required 
+						          	placeholder="Username"
+						          	required
 						        	/>
 						        	<input
 									className='form-control form-control-lg m-2'
-						          	type="password" 
+						          	type="password"
 						          	value={this.state.password}
 						          	onChange={event => this.setState({ password: event.target.value })}
-						          	placeholder="Password" 
-						          	required 
+						          	placeholder="Password"
+						          	required
 						        	/>
 						       </div>
 						         <div className='col text-center'>

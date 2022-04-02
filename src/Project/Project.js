@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from 'axios';
+import { getRequest, postRequest }from './../API/api.js'
 import './project.css';
 import { Link } from 'react-router-dom';
 
 
 const BoardButton = (props) => {
 	return 	<div className='card project-card mt-2 mb-3'>
-						<Link className='card-link' to={{pathname: '/board', 
+						<Link className='card-link' to={{pathname: '/board',
 																query: {projectId: props.project.project_id}}}>{props.project.project_title}</Link>
 					</div>
 }
@@ -18,14 +18,14 @@ class Boards extends React.Component {
 								<h2> Your Boards </h2>
 								<div className='container mt-4'>
 									{this.props.boards.map( project =>
-										<BoardButton 
+										<BoardButton
 											project={project}
 											key={project.project_id}
 										/>
 										)}
 								</div>
 							</div>
-						</div>	
+						</div>
 	}
 }
 
@@ -34,9 +34,10 @@ class AddProject extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault()
-		axios.post('/add_project', {
+		const data = {
 			title: this.state.title
-		})
+		}
+		postRequest('/add_project', data)
 		.then( (response) => {
 			this.props.addProject(response.data.projects)
 			this.setState({title: ''})
@@ -52,11 +53,11 @@ class AddProject extends React.Component {
 						 	<div className='form-group'>
 								<input
 									className='form-control form-control-lg m-2'
-				          type="text" 
+				          type="text"
 				          value={this.state.title}
 				          onChange={event => this.setState({ title: event.target.value })}
 				          placeholder='Enter New Project Name'
-				          required 
+				          required
 				        />
 				        </div>
 				        <div className='col text-center'>
@@ -77,15 +78,21 @@ class App extends React.Component {
 	}
 
 	getProjects = async () => {
-    await axios.get('/get_projects')
-    .then((response) => {
-	      const projectsList = response.data['projects']
-    		this.setState({projects: projectsList});
-    		this.setState({dataReceived: true})
-	    }, (error) => {
-	      window.location.href = '/login'
-	    });
-    
+		try {
+			await getRequest('/get_projects')
+	    .then((response) => {
+		      const projectsList = response.data['projects']
+	    		this.setState({projects: projectsList});
+	    		this.setState({dataReceived: true})
+		    }, (error) => {
+					console.log(error)
+		    });
+
+		} catch (err) {
+			window.location = '/login'
+		}
+
+
   };
 
   componentDidMount() {

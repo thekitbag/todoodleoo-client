@@ -48,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://todoodleoo-server.herokuapp.com/"
+  "proxy": "http://localhost:5000"
 }

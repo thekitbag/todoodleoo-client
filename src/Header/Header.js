@@ -1,5 +1,6 @@
 import React from 'react';
-import axios from 'axios';
+import { getRequest, postRequest }from './../API/api.js'
+
 import './header.css';
 
 
@@ -10,23 +11,31 @@ class Header extends React.Component {
     }
 
     logout = async () => {
-    	await axios.post('/auth/logout')
+    	await postRequest('/auth/logout')
     	.then( (response) => {
-    		window.location.href = '/'
+    		window.location.href = '/login'
     	}, (err) => {
     		console.log(err)
     	});
     }
 
     getUserData = async () => {
-      await axios.get('/auth/me')
-      .then((response) => {
-	      this.setState({isLoggedIn: true});
-	      this.setState({dataReceived: true});
-	      this.setState({username: response.data.username});
-	    }, (error) => {
-	      console.log('Not Logged In');
-	    });
+			try {
+				await getRequest('/auth/me')
+	      .then((response) => {
+					if (response.data.user_id !== -1) {  //user is not logged out
+						this.setState({isLoggedIn: true});
+			      this.setState({dataReceived: true});
+			      this.setState({username: response.data.username});
+						console.log('logged in user =', response.data.username)
+					} else {
+						console.log('logged out user')
+					}
+
+				})
+			} catch (err) {
+				console.log(err)
+			}
     };
 
     componentDidMount() {

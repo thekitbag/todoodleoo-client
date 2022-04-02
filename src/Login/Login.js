@@ -1,5 +1,5 @@
 import React from "react";
-import axios from 'axios';
+import { postRequest }from './../API/api.js'
 import './login.css';
 
 class Login extends React.Component {
@@ -10,19 +10,22 @@ class Login extends React.Component {
    el.innerHTML = 'Login failed, incorrect username or password'
   }
 
-  handleSubmit = (event) => {
-    axios.post('/auth/login', {
+  handleSubmit = async (event) => {
+    event.preventDefault()
+    const data = {
       username: this.state.username,
       password: this.state.password
-    })
-    .then((response) => {
-      window.location.href = '/'
-    }, (error) => {
-      if (error.response.status === 401) {
-        this.loginFailed()
-      }
-    });
-      event.preventDefault()
+    }
+    try {
+      await postRequest('/auth/login', data)
+      .then((resp) => {
+        window.location = '/'
+      }, (error) => {
+        console.log('error')
+      })
+    } catch (err) {
+      console.log('error:', err)
+    }
       this.setState({username : '', password: ''})
   };
   render() {

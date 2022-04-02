@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import axios from 'axios';
+import { postRequest }from './../API/api.js'
 
 
 const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
@@ -10,21 +10,22 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	const changeFunctions = [setGoalOne, setGoalTwo, setGoalThree]
 	const values = [goalOne, goalTwo, goalThree]
 	const placeholders = ['Goal One', 'Goal Two', 'Goal Three']
-	
+
 	const addTimebox = (event) => {
 		event.preventDefault()
 		const goals = [goalOne, goalTwo, goalThree]
-		axios.post('/add_timebox', {
+		const data = {
 			project_id: projectId,
 			title: title,
 			goals: goals
-		}).then((response) => {
+		}
+		postRequest('/add_timebox', data)
+		.then((response) => {
 			updateTimeboxes(response.data)
 		}, (error) => {
 		  console.log(error);
 		});
 	}
-	console.log(changeFunctions)
 	return (
 	    <Form
 	      onSubmit={addTimebox}
@@ -44,17 +45,18 @@ const AddTask = ({onSubmit, projectId, updateTasks}) => {
 
 	const addTask = async (event) => {
 		event.preventDefault()
-	    axios.post('/add_task', {
-	    	title: title,
-	    	project_id: projectId
-	    })
+		const data = {
+			title: title,
+			project_id: projectId
+		}
+		postRequest('/add_task', data)
 	    .then((response) => {
 	    	const taskData = response.data.tasks[0]
 	    	setTitle('')
 			updateTasks(taskData)
 		}, (error) => {
 			console.log(error);
-		});    
+		});
 	  };
 
 	return (
@@ -74,16 +76,17 @@ const AddTheme = ({ onSubmit, projectId, updateThemes }) => {
 
 	  const addTheme = async (event) => {
 	  	event.preventDefault()
-		axios.post('/add_theme', {
-		  title: title,
-		  project_id: projectId
-		  })
-		.then((response) => {
-		  updateThemes(response.data)
-		}, (error) => {
-		  console.log(error);
-		});
-		setTitle('')
+			const data = {
+			  title: title,
+			  project_id: projectId
+			  }
+				postRequest('/add_theme', data)
+				.then((response) => {
+				  updateThemes(response.data)
+				}, (error) => {
+				  console.log(error);
+				});
+				setTitle('')
 		}
 
 	  return (
@@ -93,7 +96,6 @@ const AddTheme = ({ onSubmit, projectId, updateThemes }) => {
 	    >
 	      <FullWidthInputField value={title} onChange={setTitle} placeholder={'Theme Name'}>
 	      </FullWidthInputField>
-
 	    </Form>
 	  );
 	};
@@ -130,10 +132,4 @@ const TripleInput = ({ values, changeFunctions, children, placeholders }) => {
 			</div>
 };
 
-
-
 export {AddTheme, AddTask, AddTimebox}
-
-
-
-

@@ -1,19 +1,36 @@
 import axios from 'axios';
 
-const prefix = 'http://localhost:5000'
+const prefix = 'http://localhost:5000' //'https://todoodleoo-server.herokuapp.com'
 
 const getRequest = async (endpoint, params) => {
+  const headers = {
+    'Content-Type': 'application/json'
+  }
+  const instance = axios.create({
+    withCredentials: true,
+    headers: headers
+  })
+
   try {
-      const req = await axios.get(prefix + endpoint + '?' + params)
+    if (params) {
+      const req = await instance.get(prefix + endpoint + '?' + params)
       return req
+    } else {
+      const req = await instance.get(prefix + endpoint)
+      return req
+    }
+
   } catch (err) {
     console.log(err)
   }
 }
 
 const postRequest = async (endpoint, data) => {
+  const instance = axios.create({
+    withCredentials: true
+  })
   try {
-      const req = await axios.post(prefix + endpoint, data)
+      const req = await instance.post(prefix + endpoint, data)
       return req
   } catch (err) {
     console.log(err)
@@ -22,4 +39,4 @@ const postRequest = async (endpoint, data) => {
 
 
 
-export { getRequest, postRequest }
+export { getRequest, postRequest, prefix }
