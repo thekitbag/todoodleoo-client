@@ -89,7 +89,8 @@ class App extends React.Component {
 		    });
 
 		} catch (err) {
-			window.location = '/login'
+			console.log(err)
+			//window.location = '/login'
 		}
 
 

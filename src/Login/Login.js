@@ -19,9 +19,10 @@ class Login extends React.Component {
     try {
       await postRequest('/auth/login', data)
       .then((resp) => {
-        window.location = '/'
+        //need to wait longer to get the response back before heading over to the index page
+        //window.location = '/'
       }, (error) => {
-        console.log('error')
+        console.log(error)
       })
     } catch (err) {
       console.log('error:', err)
