@@ -19,6 +19,8 @@ const getRequest = async (endpoint, params) => {
     headers: headers
   })
 
+  instance.defaults.headers.common['Host'] = prefix;
+
   try {
     if (params) {
       const req = await instance.get(prefix + endpoint + '?' + params)
