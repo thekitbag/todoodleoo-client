@@ -34,8 +34,12 @@ const getRequest = async (endpoint, params) => {
 }
 
 const postRequest = async (endpoint, data) => {
+  const headers = {
+    'Content-Type': 'application/json'
+  }
   const instance = axios.create({
-    withCredentials: true
+    withCredentials: true,
+    headers: headers
   })
   try {
       const req = await instance.post(prefix + endpoint, data)
@@ -54,7 +58,16 @@ class TestPost extends React.Component {
   }
 }
 
+class TestGet extends React.Component {
+  ping = () => {
+    getRequest('/auth/test')
+  }
+  render() {
+    return <div className='btn btn-success' onClick={() => this.ping()}>GET</div>
+  }
+}
 
 
 
-export { getRequest, postRequest, prefix, TestPost }
+
+export { getRequest, postRequest, prefix, TestPost, TestGet }

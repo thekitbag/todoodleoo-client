@@ -1,5 +1,5 @@
 import React from "react";
-import { postRequest, TestPost }from './../API/api.js'
+import { postRequest, TestPost, TestGet }from './../API/api.js'
 import './login.css';
 
 class Login extends React.Component {
@@ -35,6 +35,7 @@ class Login extends React.Component {
             <div className='col-8 mx-auto'>
               <h2 className='container'>Log In</h2>
               <TestPost />
+              <TestGet />
               <div id='error'></div>
               <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
