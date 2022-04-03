@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRequest, postRequest, prefix }from './../API/api.js'
+import { getRequest, postRequest, prefix, TestPost }from './../API/api.js'
 
 import './header.css';
 
@@ -59,6 +59,7 @@ class Header extends React.Component {
     }
 
 		return <div className='header text-center'>
+						<TestPost />
 							<div className='row'>
 								<div className='col-3'>
 									<div className='logo' onClick={() => window.location.href = '/'}>Todoodleoo {process.env.NODE_ENV} {prefix}</div>

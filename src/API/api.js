@@ -1,4 +1,5 @@
 import axios from 'axios';
+import React from 'react';
 
 //const prefix = 'https://todoodleoo-server.herokuapp.com'
 let prefix = ''
@@ -44,6 +45,16 @@ const postRequest = async (endpoint, data) => {
   }
 }
 
+class TestPost extends React.Component {
+  ping = () => {
+    postRequest('/auth/test', 'pingggggg')
+  }
+  render() {
+    return <div className='btn btn-warning' onClick={() => this.ping()}>PING</div>
+  }
+}
 
 
-export { getRequest, postRequest, prefix }
+
+
+export { getRequest, postRequest, prefix, TestPost }

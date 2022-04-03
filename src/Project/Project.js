@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRequest, postRequest }from './../API/api.js'
+import { getRequest, postRequest, TestPost }from './../API/api.js'
 import './project.css';
 import { Link } from 'react-router-dom';
 
@@ -107,6 +107,7 @@ class App extends React.Component {
 			return <div className='projects-list'>
 							<Boards boards={this.state.projects}/>
 							<AddProject addProject={this.addProject} />
+							<TestPost />
 						 </div>
 
 
