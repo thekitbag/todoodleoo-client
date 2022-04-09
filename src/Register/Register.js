@@ -13,7 +13,7 @@ class Register extends React.Component {
 			username: this.state.username,
 			password: this.state.password,
 		}
-		postRequest('/auth/register', data)
+		postRequest('/register', data)
 		.then((response) => {
 		  console.log(response.data)
 		}, (error) => {

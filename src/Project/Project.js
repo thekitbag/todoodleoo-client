@@ -107,7 +107,6 @@ class App extends React.Component {
 			return <div className='projects-list'>
 							<Boards boards={this.state.projects}/>
 							<AddProject addProject={this.addProject} />
-							<TestPost />
 						 </div>
 
 

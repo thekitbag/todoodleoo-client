@@ -1,14 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-//const prefix = 'https://todoodleoo-server.herokuapp.com'
-let prefix = ''
-if (process.env.NODE_ENV === 'production') {
-  prefix = 'https://todoodleoo-server.herokuapp.com'
-} else {
-  prefix = 'http://localhost:5000'
-}
-
+let prefix = '/api'
 
 const getRequest = async (endpoint, params) => {
   const headers = {
@@ -18,8 +11,6 @@ const getRequest = async (endpoint, params) => {
     withCredentials: true,
     headers: headers
   })
-
-  instance.defaults.headers.common['Host'] = prefix;
 
   try {
     if (params) {
@@ -43,6 +34,7 @@ const postRequest = async (endpoint, data) => {
     withCredentials: true,
     headers: headers
   })
+
   try {
       const req = await instance.post(prefix + endpoint, data)
       return req
@@ -53,7 +45,7 @@ const postRequest = async (endpoint, data) => {
 
 class TestPost extends React.Component {
   ping = () => {
-    postRequest('/auth/test', 'pingggggg')
+    postRequest('/test', 'pingggggg')
   }
   render() {
     return <div className='btn btn-warning' onClick={() => this.ping()}>PING</div>
@@ -62,7 +54,7 @@ class TestPost extends React.Component {
 
 class TestGet extends React.Component {
   ping = () => {
-    getRequest('/auth/test')
+    getRequest('/test')
   }
   render() {
     return <div className='btn btn-success' onClick={() => this.ping()}>GET</div>

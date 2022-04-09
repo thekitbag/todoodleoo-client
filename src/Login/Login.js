@@ -1,5 +1,5 @@
 import React from "react";
-import { postRequest, TestPost, TestGet }from './../API/api.js'
+import { postRequest }from './../API/api.js'
 import './login.css';
 
 class Login extends React.Component {
@@ -17,10 +17,9 @@ class Login extends React.Component {
       password: this.state.password
     }
     try {
-      await postRequest('/auth/login', data)
+      await postRequest('/login', data)
       .then((resp) => {
-        //need to wait longer to get the response back before heading over to the index page
-        //window.location = '/'
+        window.location = '/'
       }, (error) => {
         console.log(error)
       })
@@ -34,8 +33,6 @@ class Login extends React.Component {
           <div className='row'>
             <div className='col-8 mx-auto'>
               <h2 className='container'>Log In</h2>
-              <TestPost />
-              <TestGet />
               <div id='error'></div>
               <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>
