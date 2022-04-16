@@ -22,6 +22,10 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 		postRequest('/add_timebox', data)
 		.then((response) => {
 			updateTimeboxes(response.data)
+			setTitle('')
+			setGoalOne('')
+			setGoalTwo('')
+			setGoalThree('')
 		}, (error) => {
 		  console.log(error);
 		});
@@ -29,7 +33,7 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	return (
 	    <Form
 	      onSubmit={addTimebox}
-	      cta='Add Task'
+	      cta='Add Timebox'
 	    >
 	      <FullWidthInputField value={title} onChange={setTitle} placeholder={'Timebox Name'}>
 	      </FullWidthInputField>
