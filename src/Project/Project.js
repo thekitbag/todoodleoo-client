@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRequest, postRequest, TestPost }from './../API/api.js'
+import { getRequest, postRequest }from './../API/api.js'
 import './project.css';
 import { Link } from 'react-router-dom';
 

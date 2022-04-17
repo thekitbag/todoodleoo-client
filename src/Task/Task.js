@@ -14,16 +14,15 @@ class Task extends React.Component {
 	    super(props);
 
 	    this.state = {
-	    	//projectId: this.props.projectId,
-	        id: this.props.id,
-			title: this.props.title,
-			status:this.props.status,
-			priority: this.props.priority,
-			theme: this.props.theme,
-			epic: this.props.epic,
-			timeboxes: this.props.timeboxes,
-			themeColor: this.props.theme_color,
-			editing:false
+	    	projectId: this.props.projectId,
+	      id: this.props.id,
+				title: this.props.title,
+				status:this.props.status,
+				priority: this.props.priority,
+				theme: this.props.theme,
+				timeboxes: this.props.timeboxes,
+				themeColor: this.props.theme_color,
+				editing:false
 	    };
 	  }
 
@@ -39,8 +38,9 @@ class Task extends React.Component {
 	}
 
 	save = (event) => {
-		this.setState({editing: false})
+		this.setState({editing: false, themeColor: this.getThemeColor(this.state.theme)})
 		const data = {
+			project_id: this.state.projectId,
 		  id: this.state.id,
 		  title: this.state.title,
 		  status: this.state.status,
@@ -49,19 +49,11 @@ class Task extends React.Component {
 		  priority: this.state.priority
 		}
 		postRequest('/edit_task', data)
-	}
-
-	editTaskName = (event) => {
-		event.preventDefault()
-		this.setState({editing: false})
-		const data = {
-		  id: this.state.id,
-		  title: this.state.title,
-		  status: this.state.status,
-		  theme: this.state.theme,
-		  priority: this.state.priority
-		}
-		postRequest('/edit_task', data)
+		.then((resp) => {
+			this.props.editTask(this.state.id, this.state.theme)
+		}, (error) => {
+			console.log(error)
+		})
 	}
 
 	getThemeColor = (themeName) => {
@@ -113,26 +105,26 @@ class Task extends React.Component {
 							<div className='card-body'>
 								<div className='row'>
 									<div className='col-6'>
-										<div class='btn btn-primary' onClick={this.save}>Save</div>
+										<div className='btn btn-primary' onClick={this.save}>Save</div>
 									</div>
 								</div>
 								<div className='row'>
 									<div className='col-12'>
-										<form onSubmit={this.editTaskName}>
+										<form>
 									 	<div className='form-group'>
 											<textarea
 												className='form-control form-control mt-1 mb-1'
-									            type="text"
-									            value={this.state.title}
-									            onChange={event => this.setState({ title: event.target.value })}
-									            placeholder= {this.state.title}
-									            required
-									        />
-									        <select className="form-select mt-1 mb-1" onChange={event => this.setState({ theme: event.target.value, themeColor: this.getThemeColor(event.target.value) })}>
-											  <option defaultValue >{this.state.theme}</option>
+						            type="text"
+						            value={this.state.title}
+						            onChange={event => this.setState({ title: event.target.value })}
+						            placeholder= {this.state.title}
+						            required
+									    />
+							        <select className="form-select mt-1 mb-1" onChange={event => this.setState({ theme: event.target.value})}>
+											  <option defaultValue>{this.state.theme}</option>
 											  {this.props.themes.map(theme => {
 												return theme.title !== this.state.theme ?
-											  	<option key={theme.id} value={theme.title}>{theme.title}</option>
+											  	<option value={theme.title}>{theme.title}</option>
 											  	: <></>
 											  }
 											   )};
@@ -226,13 +218,14 @@ class TimeboxTask extends React.Component {
 
 class BacklogTask extends React.Component {
 	render() {
-		console.log(this.props)
 		return <Task
 				{...this.props}
 				editable={true}
 				deleteable={true}
 				status={false}
 				deleteTask={this.props.deleteTask}
+				theme={this.props.theme}
+				themes={this.props.themes}
 			   />
 	}
 }

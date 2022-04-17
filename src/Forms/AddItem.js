@@ -127,7 +127,6 @@ const FullWidthInputField = ({ value, onChange, children, placeholder }) => (
 const TripleInput = ({ values, changeFunctions, children, placeholders }) => {
 	const [p1, p2, p3] = [placeholders[0], placeholders[1], placeholders[2]]
 	const [v1, v2, v3] = [values[0], values[1], values[2]]
-	console.log(changeFunctions)
 	const [f1, f2, f3] = [changeFunctions[0], changeFunctions[1], changeFunctions[2]]
 	return  <div className='col-12 mx-auto mt-2 goals-group'>
 				<input className='form-control' placeholder={p1} value={v1} type="text" onChange={event => f1(event.target.value)}/>

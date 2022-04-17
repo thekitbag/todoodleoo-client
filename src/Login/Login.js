@@ -19,7 +19,12 @@ class Login extends React.Component {
     try {
       await postRequest('/login', data)
       .then((resp) => {
-        window.location = '/'
+        if ( resp.data === "Incorrect username/password combo") {
+          this.loginFailed()
+        }
+        else {
+          window.location = '/'
+        }
       }, (error) => {
         console.log(error)
       })

@@ -15,13 +15,26 @@ class Board extends React.Component {
 	    };
 	  }
 
-	addTask = (taskData) => {
-		const newTask = {...taskData}
-		this.setState(prevState => ({
-    		tasks: [newTask, ...this.state.tasks],
-    		visibleTasks: [newTask, ...this.state.tasks]
-    	}));
+		addTask = (taskData) => {
+			const newTask = {...taskData}
+				this.setState(prevState => ({
+		    		tasks: [newTask, ...this.state.tasks],
+		    		visibleTasks: [newTask, ...this.state.tasks]
+		    	}));
   	};
+
+		editTask = (taskId, themeName) => {
+			const task = this.state.tasks.find(t => t.id === taskId)
+			const idx = this.state.tasks.indexOf(task)
+			const theme = this.state.themes.find(th => th.title === themeName)
+			let tasks = this.state.tasks
+			let vtasks = this.state.visibleTasks
+			task.theme = theme.title
+			task.theme_color = theme.color
+			tasks.splice(idx,1,task)
+			vtasks.splice(idx,1,task)
+			this.setState({tasks: tasks, visibleTasks:vtasks})
+	  	};
 
   	addTimebox = (timebox) => {
   		this.setState(prevState => ({
@@ -40,7 +53,7 @@ class Board extends React.Component {
   			task_id: taskId,
   			project_id: this.state.projectId
   		}
-			const r = postRequest('/delete_task', data)
+			postRequest('/delete_task', data)
   		const tasks = this.state.tasks.filter(t => t.id !== taskId)
   		this.setState(prevState => ({
 		    	tasks: tasks,
@@ -225,6 +238,8 @@ class Board extends React.Component {
 								  tasks={this.state.visibleTasks}
 								  addTask={this.addTask}
 								  deleteTask={this.deleteTask}
+									themes={this.state.themes}
+									editTask={this.editTask}
 								/>
 								<Timeboxes
 									addTimebox={this.addTimebox}

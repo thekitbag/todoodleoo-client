@@ -17,37 +17,39 @@ class Backlog extends React.Component {
 				  	<div className='component-title'>
 				  		<span>Backlog</span>
 				  	</div>
-				  	<AddTask 
+				  	<AddTask
 				  		projectId={this.props.projectId}
 				  		updateTasks={this.props.addTask}
 				  	/>
 				  	<Droppable droppableId={'Backlog'}>
 						{(provided) => (
-							<div 
+							<div
 								className='row m-2'
-								ref={provided.innerRef} 
+								ref={provided.innerRef}
 							>
 							{this.props.tasks.length === 0 &&
 								<BacklogExplainer />
 							}
 						  	{this.props.tasks.map(
-						  		(task, index) => 
+						  		(task, index) =>
 						  		task.timebox === 'Backlog' &&
 							  		<Draggable key={task.id} draggableId={String(task.id)} index={index}>
 										{provided => (
 
-											<div  
+											<div
 												ref={provided.innerRef}
 												{...provided.draggableProps}
-				      					        {...provided.dragHandleProps}		
+				      					        {...provided.dragHandleProps}
 						    			    >
-								  				<BacklogTask 
-													themes={this.props.themes}
-													epics={this.props.epics}
-													allTimeboxes={this.props.allTimeboxes}
-													deleteTask={this.props.deleteTask}
-													{...task}
-												/>
+								  				<BacklogTask
+														projectId={this.props.projectId}
+														themes={this.props.themes}
+														epics={this.props.epics}
+														allTimeboxes={this.props.allTimeboxes}
+														deleteTask={this.props.deleteTask}
+														editTask={this.props.editTask}
+														{...task}
+													/>
 											</div>
 										)}
 									</Draggable>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getRequest, postRequest, prefix }from './../API/api.js'
+import { getRequest, postRequest }from './../API/api.js'
 
 import './header.css';
 
