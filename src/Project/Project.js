@@ -15,7 +15,7 @@ class Boards extends React.Component {
 	render() {
 		return <div className='row'>
 							<div className='col-6 text-center mx-auto mt-5 border-secondary'>
-								<h2> Your Boards </h2>
+								<h3> Your Boards </h3>
 								<div className='container mt-4'>
 									{this.props.boards.map( project =>
 										<BoardButton

@@ -83,7 +83,7 @@ class Timebox extends React.Component {
 					{(provided) => (
 						<div className='timebox card' ref={provided.innerRef}>
 							<div className='card-body'>
-								<h2 className='card-title text-center'>{this.props.title}</h2>
+								<h4 className='card-title text-center'>{this.props.title}</h4>
 								<div className='timebox-status'>Status:{this.props.status}</div>
 								<div className='timebox-goals mx-auto'>
 									{this.props.goals.map( goal =>
@@ -123,7 +123,7 @@ class Timebox extends React.Component {
 
 class Timeboxes extends React.Component {
 	render() {
-		return  <div className='timeboxes-container col-6'>
+		return  <div className='timeboxes-container col-5'>
 				  <div className='component-container'>
 				    <div className='component-title'>
 				  		<span>Timeboxes</span>

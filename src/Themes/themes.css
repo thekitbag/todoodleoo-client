@@ -9,9 +9,9 @@
 }
 
  .theme {
-    font-size: 28px;
+    font-size: 18px;
     text-align: center;
-    height: 140px;
+    height: 70px;
     margin: 4px;
 }
 
@@ -32,7 +32,7 @@
 .theme-title {
   width:  80%;
   float: left;
-  line-height: 140px;
+  line-height: 70px;
   margin: auto;
 }
 

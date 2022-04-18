@@ -6,20 +6,15 @@ body {
 
 
 .project-card {
-	height: 80px;
+	height: 40px;
 	background-color: none;
 	opacity:  0.6;
 }
 
 .card-link {
-	font-size: 24px;
-	line-height: 80px;
+	font-size: 12px;
+	line-height: 40px;
 	text-decoration: none;
 	color: black;
 	opacity:  1;
-}
-
-.projects-list {
-	position: relative;
-	top: 80px
 }

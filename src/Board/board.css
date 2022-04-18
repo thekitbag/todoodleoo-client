@@ -6,10 +6,10 @@
 }
 
 .component-title {
-	font-size: 36px;
+	font-size: 18px;
 	font-weight: 600;
 	text-align: center;
-	padding-top: 24px;
+	padding-top: 12px;
 }
 
 .goals-group .form-control {
@@ -21,7 +21,7 @@
 }
 
 .new-user-copy {
-    font-size: 32px;
+    font-size: 16px;
     margin: auto;
     text-align: justify;
 }

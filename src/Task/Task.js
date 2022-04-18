@@ -77,7 +77,7 @@ class Task extends React.Component {
 										<div className='theme-blob' style={{backgroundColor: this.state.themeColor}}></div>
 									</div>
 									<div className='card-title col-8'>
-										<h2>{this.state.title}</h2>
+										<h6>{this.state.title}</h6>
 									</div>
 									{this.props.editable &&
 									<div className='col-2'>

@@ -2,13 +2,13 @@
     position: relative;
 }
 .delete-icon {
-    height: 34px;
-    width: 34px;
+    height: 16px;
+    width: 16px;
     float:  right;
 }
 
 .edit-pencil {
-  height: 20px;
+  height: 10px;
   float: right;
 }
 
@@ -17,8 +17,8 @@
 }
 
 .theme-blob {
-  height: 80px;
-  width:  25px;
+  height: 40px;
+  width:  14px;
   border-radius: 4px;
 }
 
@@ -32,7 +32,7 @@
 
 .card-outline {
     margin-top: 8px;
-    height: 144px;
+    height: 78px;
     border: 2px solid black;
     border-radius: 8px;
     background-color: transparent;
@@ -45,7 +45,7 @@
     width: -moz-fit-content;
     width: fit-content;
     border-radius: 8px;
-    font-size: 20px;
+    font-size: 14px;
     padding: 2px 6px 2px 6px;
     margin-bottom: 12px;
 }

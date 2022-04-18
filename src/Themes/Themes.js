@@ -25,17 +25,17 @@ const Theme = (props) => {
 
 	return  <Droppable droppableId={theme}>
 						{(provided, snapshot) => (
-							<Container  className="col-12" 
+							<Container  className="col-12"
 										onClick = {() => props.filterByTheme(props.title)}
 										ref={provided.innerRef}
 										isDraggingOver={snapshot.isDraggingOver}
 							>
-								<div 
-									
-									className='container card theme' 
+								<div
+
+									className='container card theme'
 									style={{backgroundColor: props.data.color}}
 								>
-									<div  
+									<div
 										className='theme-title'
 									>
 										<span>
@@ -43,10 +43,10 @@ const Theme = (props) => {
 										</span>
 									</div>
 									<div className='theme-delete-icon'>
-										<img 
-											alt="delete-icon" 
-											className='delete-icon' 
-											onClick={() => deleteTheme()} 
+										<img
+											alt="delete-icon"
+											className='delete-icon'
+											onClick={() => deleteTheme()}
 											src={deleteIcon}
 										>
 										</img>
@@ -60,14 +60,14 @@ const Theme = (props) => {
 
 const ClearFilters = (props) => {
 	return <div className="col-12" onClick={props.clearFilters}>
-										<div 
-											className='container card theme border border-dark col-12' 
+										<div
+											className='container card theme border border-dark col-12'
 											style={{backgroundColor: 'pink', height: 60}}
 										>
 											<h4 className='add-theme-title'>Clear Filters</h4>
 											<h3>x</h3>
 										</div>
-									</div> 
+									</div>
 }
 
 
@@ -113,7 +113,7 @@ class Themes extends React.Component {
 
 
 	render() {
-		return  <div className='themes-container col-2' id='themes-container'>
+		return  <div className='themes-container col-3' id='themes-container'>
 								<div className='component-container'>
 									<div className='component-title'>
 									  <span>Themes</span>
@@ -127,15 +127,15 @@ class Themes extends React.Component {
 										{this.props.themes.length === 0 &&
 											<ThemeExplainer />
 										}
-										{this.state.themes.map(theme => 
-											<Theme 
-												projectId={this.props.projectId} 
-												key={theme.id} data={theme} 
+										{this.state.themes.map(theme =>
+											<Theme
+												projectId={this.props.projectId}
+												key={theme.id} data={theme}
 												filterByTheme={this.filterByTheme}
 												title={theme.title}
 												deleteTheme={this.deleteTheme}
 											/>)}
-										{this.props.filtering === true && 
+										{this.props.filtering === true &&
 											<ClearFilters clearFilters={this.clearFilters} />
 										}
 								</div>
@@ -146,5 +146,3 @@ class Themes extends React.Component {
 
 
 export default Themes
-
-			
