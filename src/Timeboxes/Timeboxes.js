@@ -4,6 +4,8 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import {TimeboxTask} from './../Task/Task.js';
 import './timeboxes.css';
 import { postRequest }from './../API/api.js'
+import pencil from './../img/pencil.svg';
+import deleteIcon from './../img/delete_icon.png';
 
 
 const TimeboxesExplainer = (props) => {
@@ -16,7 +18,9 @@ class Timebox extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	        tasks: this.props.tasks
+	        tasks: this.props.tasks,
+					title: this.props.title,
+					goals: this.props.goals
 	    };
 	  }
 	static getDerivedStateFromProps(nextProps, prevState){
@@ -74,52 +78,118 @@ class Timebox extends React.Component {
   		} catch (err) {
   			console.log('Task Update Failed')
   		}
-
   	}
+
+		deleteTimebox = async (timeboxId) => {
+			try {
+				const data = {
+					project_id: this.props.projectId,
+					timebox_id: timeboxId
+				}
+				postRequest('/delete_timebox', data)
+				this.props.deleteTimebox(timeboxId)
+			} catch (err) {
+				console.log(err)
+			}
+		}
+
+		editMode = () => {
+			this.setState({editing: true})
+		}
+
+		save = (timeboxId) => {
+			this.props.editTimebox(timeboxId, this.state)
+			this.setState({editing: false})
+			try {
+				const data = {
+					project_id: this.props.projectId,
+					timebox_id: timeboxId,
+					title: this.state.title,
+					goals: this.state.goals
+				}
+				postRequest('/edit_timebox', data)
+			} catch (err) {
+				console.log(err)
+			}
+		}
 
 
 	render() {
-		return  <Droppable droppableId={'Timebox:' + this.props.title}>
-					{(provided) => (
-						<div className='timebox card' ref={provided.innerRef}>
-							<div className='card-body'>
-								<h4 className='card-title text-center'>{this.props.title}</h4>
-								<div className='timebox-status'>Status:{this.props.status}</div>
-								<div className='timebox-goals mx-auto'>
-									{this.props.goals.map( goal =>
-										<div className='timebox-goal'>
-											{goal}
-										</div>
-										)}
-								</div>
-								<div className='timebox-tasks'>
-									{this.state.tasks.map( (task, index) =>
-												<Draggable key={task.id} draggableId={String(task.id)} index={index}>
-													{provided => (
+			return  <Droppable
+								droppableId={'Timebox:' + this.props.title}
+								key={this.props.id}
+							>
+							{(provided) => (
+								<div className='timebox card' ref={provided.innerRef}>
+									<div className='card-body'>
+										{this.state.editing === true ?
+											<div className='btn btn-primary btn-sm' onClick={() => this.save(this.props.id)}>save</div> :
+											<span className='edit-pencil-container'>
+												<img alt="edit-pencil" className='edit-pencil' onClick={() => this.editMode()} src={pencil}></img>
+											</span>
+										}
+										<span className='delete-icon-container'>
+											<img alt="delete-icon" className='delete-icon' onClick={() => this.deleteTimebox(this.props.id)} src={deleteIcon}></img>
+										</span>
+										{this.state.editing === true ?
+											<form>
+												<textarea
+													className='form-control form-control mt-1 mb-1'
+													type="text"
+													value={this.state.title}
+													onChange={event => this.setState({ title: event.target.value })}
+													required
+												/>
+											</form> :
+											<h4 className='card-title text-center'>{this.props.title}</h4>
+										}
+										<div className='timebox-status'>Status:{this.props.status}</div>
+										<div className='timebox-goals mx-auto'>
+											{this.state.editing === true ?
+												<form>
+													<div className='col-12 mx-auto mt-2 goals-group'>
+														<input className='form-control' value={this.state.goals[0]} type="text" onChange={event => this.setState({goals: [event.target.value, this.state.goals[1], this.state.goals[2]]})}/>
+														<input className='form-control' value={this.state.goals[1]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], event.target.value, this.state.goals[2]]})}/>
+														<input className='form-control' value={this.state.goals[2]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], this.state.goals[1], event.target.value]})}/>
+													</div>
+												</form> :
 
-														<div
-															ref={provided.innerRef}
-															{...provided.draggableProps}
-							      					        {...provided.dragHandleProps}
-									    			    >
-													<TimeboxTask
-														{...task}
-														startTask={this.startTask}
-														completeTask={this.completeTask}
-														reopenTask={this.reopenTask}
-													/>
-														</div>
+											this.props.goals.map( goal =>
+												<div className='timebox-goal'>
+													{goal}
+												</div>
+												)}
+
+										</div>
+										<div className='timebox-tasks'>
+											{this.state.tasks.map( (task, index) =>
+														<Draggable key={task.id} draggableId={String(task.id)} index={index}>
+															{provided => (
+
+																<div
+																	ref={provided.innerRef}
+																	{...provided.draggableProps}
+									      					        {...provided.dragHandleProps}
+											    			    >
+															<TimeboxTask
+																{...task}
+																startTask={this.startTask}
+																completeTask={this.completeTask}
+																reopenTask={this.reopenTask}
+															/>
+																</div>
+															)}
+														</Draggable>
 													)}
-												</Draggable>
-											)}
+										</div>
+									</div>
+									{provided.placeholder}
 								</div>
-							</div>
-							{provided.placeholder}
-						</div>
-					)}
-				</Droppable>
-	}
-}
+							)}
+						</Droppable>
+
+			}
+		}
 
 class Timeboxes extends React.Component {
 	render() {
@@ -141,6 +211,8 @@ class Timeboxes extends React.Component {
 					  		<Timebox
 								key={timebox.id}
 								projectId={this.props.projectId}
+								deleteTimebox={this.props.deleteTimebox}
+								editTimebox={this.props.editTimebox}
 								tasks={this.props.tasks.filter(t => t.timebox === timebox.title)}
 								{...timebox}
 							 />
@@ -151,5 +223,6 @@ class Timeboxes extends React.Component {
 				</div>
 	}
 }
+
 
 export default Timeboxes

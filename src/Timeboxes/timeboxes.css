@@ -22,3 +22,17 @@
 .timebox-status {
 	font-weight: 800;
 }
+
+.edit-pencil-container {
+	float: left;
+}
+
+.delete-icon-container {
+	position: relative;
+	left: 20px;
+}
+
+.edit-pencil-container .edit-pencil {
+	position: relative;
+	right: 20px;
+}

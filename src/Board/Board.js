@@ -29,8 +29,10 @@ class Board extends React.Component {
 			const theme = this.state.themes.find(th => th.title === themeName)
 			let tasks = this.state.tasks
 			let vtasks = this.state.visibleTasks
-			task.theme = theme.title
-			task.theme_color = theme.color
+			if (themeName !== 'No Theme') {
+				task.theme = theme.title
+				task.theme_color = theme.color
+			}
 			tasks.splice(idx,1,task)
 			vtasks.splice(idx,1,task)
 			this.setState({tasks: tasks, visibleTasks:vtasks})
@@ -41,6 +43,24 @@ class Board extends React.Component {
     		timeboxes: [...this.state.timeboxes, timebox]
     	}));
   	}
+
+		deleteTimebox = (timeboxId) => {
+			const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
+			this.setState({timeboxes: timeboxes})
+		}
+
+		editTimebox = (timeboxId, timeboxData) => {
+			console.log(timeboxData)
+			const timeboxes = this.state.timeboxes
+			const timebox = timeboxes.find(tb => tb.id === timeboxId)
+			const idx = timeboxes.indexOf(timebox)
+			timebox.title = timeboxData.title
+			timebox.goals = timeboxData.goals
+			timeboxes.splice(idx, 1, timebox)
+			console.log(timeboxes)
+			this.setState({timeboxes: timeboxes})
+
+		}
 
   	addTheme = (themeData) => {
   		this.setState(prevState => ({
@@ -243,6 +263,8 @@ class Board extends React.Component {
 								/>
 								<Timeboxes
 									addTimebox={this.addTimebox}
+									deleteTimebox={this.deleteTimebox}
+									editTimebox={this.editTimebox}
 									timeboxes={this.state.timeboxes}
 									tasks={this.state.visibleTasks}
 									projectId={this.state.projectId}
