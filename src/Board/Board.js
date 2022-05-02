@@ -57,9 +57,14 @@ class Board extends React.Component {
 			timebox.title = timeboxData.title
 			timebox.goals = timeboxData.goals
 			timeboxes.splice(idx, 1, timebox)
-			console.log(timeboxes)
 			this.setState({timeboxes: timeboxes})
 
+		}
+
+		updateTimeboxStatus = (timeboxId, status) => {
+			const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
+			this.setState({timeboxes: timeboxes})
+			this.getTasks(this.state.projectId)
 		}
 
   	addTheme = (themeData) => {
@@ -268,6 +273,7 @@ class Board extends React.Component {
 									timeboxes={this.state.timeboxes}
 									tasks={this.state.visibleTasks}
 									projectId={this.state.projectId}
+									updateTimeboxStatus={this.updateTimeboxStatus}
 								/>
 						 	</div>
 						</DragDropContext>

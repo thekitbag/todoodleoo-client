@@ -113,6 +113,20 @@ class Timebox extends React.Component {
 			}
 		}
 
+		closeTimebox = () => {
+			try {
+				const data = {
+					project_id: this.props.projectId,
+					timebox_id: this.props.id,
+					status: 'Closed'
+				}
+				postRequest('/update_timebox_status', data)
+				this.props.updateTimeboxStatus(this.props.id, 'Closed')
+			} catch (err) {
+				console.log(err)
+			}
+		}
+
 
 	render() {
 			return  <Droppable
@@ -143,8 +157,13 @@ class Timebox extends React.Component {
 											</form> :
 											<h4 className='card-title text-center'>{this.props.title}</h4>
 										}
-										<div className='timebox-status'>Status:{this.props.status}</div>
-										<div className='timebox-goals mx-auto'>
+										<div className='row'>
+											<div className='timebox-status col-6'>Status:{this.props.status}</div>
+											<div className='col-6'>
+												<div className='btn btn-primary' style={{float:'right'}} onClick={this.closeTimebox}>Close Timebox</div>
+											</div>
+										</div>
+										<div className='timebox-goals mx-auto mt-2'>
 											{this.state.editing === true ?
 												<form>
 													<div className='col-12 mx-auto mt-2 goals-group'>
@@ -213,6 +232,7 @@ class Timeboxes extends React.Component {
 								projectId={this.props.projectId}
 								deleteTimebox={this.props.deleteTimebox}
 								editTimebox={this.props.editTimebox}
+								updateTimeboxStatus={this.props.updateTimeboxStatus}
 								tasks={this.props.tasks.filter(t => t.timebox === timebox.title)}
 								{...timebox}
 							 />
