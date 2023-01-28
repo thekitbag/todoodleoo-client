@@ -3,24 +3,37 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import './backlog.css';
 import { AddTask } from './../Forms/AddItem.js'
 import {BacklogTask} from './../Task/Task.js';
+import plusIcon from './../img/plus_icon.png';
+
 
 const BacklogExplainer = (props) => {
-	return 	<div className='col-12 mt-5 new-user-copy'>
-				<p>The backlog is where new tasks go before they have been added to a timebox</p>
+	return 	<div className='col-12 new-user-copy'>
+				<p>This is your task list. Drag and drop to reorders</p>
 			</div>
 }
 
 class Backlog extends React.Component {
+	state = {
+		showAddTaskModalStatus: false
+	  };
+	showAddTaskModal = () => {
+		this.setState({showAddTaskModalStatus: !this.state.showAddTaskModalStatus})
+	}
+	//This ^^ should be a method of the board component and passed down to both Backlog and Themes
 	render() {
-		return  <div className='backlog-container col-4'>
+		return  <div className='backlog-container col-12'>
 				  <div className='component-container'>
 				  	<div className='component-title'>
 				  		<span>Backlog</span>
 				  	</div>
-				  	<AddTask
-				  		projectId={this.props.projectId}
-				  		updateTasks={this.props.addTask}
-				  	/>
+					<div className='plus-icon-container'>
+						<img
+							alt="plus-icon"
+							className='plus-icon'
+							onClick={() => this.showAddTaskModal()}
+							src={plusIcon}
+						></img>
+					</div>
 				  	<Droppable droppableId={'Backlog'}>
 						{(provided) => (
 							<div
@@ -62,6 +75,19 @@ class Backlog extends React.Component {
 						  	)}
 					</Droppable>
 				  </div>
+				  	{this.state.showAddTaskModalStatus === true &&
+							<div className='modal-container'>
+								<div className='add-modal-bg' onClick={() => this.showAddTaskModal()}>								
+								</div>
+								<div className='add-modal'>
+									<AddTask
+										projectId={this.props.projectId}
+										updateTasks={this.props.addTask}
+										closeModal={this.showAddTaskModal}
+									/>
+								</div>	
+							</div>
+					}
 				</div>
 	}
 }

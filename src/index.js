@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Project from './Project/Project.js';
 import Header from './Header/Header.js'
-import Sidebar from './Sidebar/Sidebar.js'
 import Login from './Login/Login.js'
 import Register from './Register/Register.js'
 import { Board } from './Board/Board.js'
@@ -15,7 +14,6 @@ import './index.css';
 ReactDOM.render(
   <Router>
      <div className='main-container'>
-       <Sidebar />
        <Header />
        <div className='content-container'>
          <Switch>

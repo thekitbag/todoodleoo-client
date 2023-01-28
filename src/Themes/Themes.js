@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import deleteIcon from './../img/delete_icon.png';
+import expandIcon from './../img/expand_icon.png';
+import plusIcon from './../img/plus_icon.png';
+
 import { Droppable } from 'react-beautiful-dnd';
 import { AddTheme } from './../Forms/AddItem.js'
 import './themes.css'
 
 const ThemeExplainer = (props) => {
-	return 	<div className='col-12 mt-5 new-user-copy'>
+	return 	<div className='col-12 new-user-copy'>
 						<p>Themes let you group similar tasks together</p>
 					</div>
 }
@@ -78,6 +81,7 @@ class Themes extends React.Component {
 
     this.state = {
       themes: this.props.themes,
+	  showThemes: false,
       showAddThemeModalStatus: false
     };
   }
@@ -98,8 +102,12 @@ class Themes extends React.Component {
 	  }
 	}
 
+	showThemes = () => {
+		this.setState({showThemes: !this.state.showThemes})
+	}
+
   showAddThemeModal = () => {
-  	this.setState({showAddThemeModalStatus: true})
+  	this.setState({showAddThemeModalStatus: !this.state.showAddThemeModalStatus})
   }
 
 	deleteTheme = (themeId) => {
@@ -113,17 +121,35 @@ class Themes extends React.Component {
 
 
 	render() {
-		return  <div className='themes-container col-3' id='themes-container'>
-								<div className='component-container'>
-									<div className='component-title'>
-									  <span>Themes</span>
-									</div>
-										<AddTheme
-										  projectId={this.props.projectId}
-											showAddThemeModal={this.showAddThemeModal}
-											updateThemes={this.props.addTheme}
-										/>
-									<div className='row m-2'>
+		if (this.state.showThemes === false) {
+			return <div className='themes-container expanded col-12 mb-3' id='themes-container'>
+						<div className='component-container'>
+							<div className='component-title'>
+								<span>Themes</span>
+							</div>
+							<img
+								alt="expand-icon"
+								className='expand-icon'
+								onClick={() => this.showThemes()}
+								src={expandIcon}
+							>
+							</img>
+						</div>
+					</div>
+		} else {
+			return <div className='themes-container-expanded col-12 mb-3' id='themes-container'>
+						<div className='component-container'>
+							<div className='component-title'>
+								<span>Themes</span>
+							</div>
+							<img
+								alt="expand-icon"
+								className='retract-icon'
+								onClick={() => this.showThemes()}
+								src={expandIcon}
+							>
+							</img>
+							<div className="themes-holder">
 										{this.props.themes.length === 0 &&
 											<ThemeExplainer />
 										}
@@ -138,11 +164,36 @@ class Themes extends React.Component {
 										{this.props.filtering === true &&
 											<ClearFilters clearFilters={this.clearFilters} />
 										}
-								</div>
-						    </div>
 							</div>
+							<div className='plus-icon-container'>
+								<img
+									alt="expand-icon"
+									className='plus-icon'
+									onClick={() => this.showAddThemeModal()}
+									src={plusIcon}
+								></img>
+							</div>
+						</div>
+						{this.state.showAddThemeModalStatus === true &&
+							<div className='modal-container'>
+								<div className='add-modal-bg' onClick={() => this.showAddThemeModal()}>								
+								</div>
+								<div className='add-modal'>
+									<AddTheme
+										projectId={this.props.projectId}
+										updateThemes={this.props.addTheme}
+										closeModal={this.showAddThemeModal}
+									/>
+								</div>	
+							
+							</div>
+						}
+					</div>
+					
 		}
 	}
+}
+		
 
 
 export default Themes

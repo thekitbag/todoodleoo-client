@@ -44,7 +44,7 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	};
 
 
-const AddTask = ({onSubmit, projectId, updateTasks}) => {
+const AddTask = ({closeModal, projectId, updateTasks}) => {
 	const [title, setTitle] = useState('');
 
 	const addTask = async (event) => {
@@ -58,6 +58,7 @@ const AddTask = ({onSubmit, projectId, updateTasks}) => {
 	    	const taskData = response.data.tasks[0]
 	    	setTitle('')
 			updateTasks(taskData)
+			closeModal()
 		}, (error) => {
 			console.log(error);
 		});
@@ -75,7 +76,7 @@ const AddTask = ({onSubmit, projectId, updateTasks}) => {
 	  );
 	};
 
-const AddTheme = ({ onSubmit, projectId, updateThemes }) => {
+const AddTheme = ({ closeModal, projectId, updateThemes }) => {
 	  const [title, setTitle] = useState('');
 
 	  const addTheme = async (event) => {
@@ -86,7 +87,10 @@ const AddTheme = ({ onSubmit, projectId, updateThemes }) => {
 			  }
 				postRequest('/add_theme', data)
 				.then((response) => {
-				  updateThemes(response.data)
+				  updateThemes(response.data);
+				  closeModal()
+
+
 				}, (error) => {
 				  console.log(error);
 				});
@@ -106,12 +110,12 @@ const AddTheme = ({ onSubmit, projectId, updateThemes }) => {
 
 const Form = ({ onSubmit, cta, children }) => (
   <form onSubmit={onSubmit}>
-    <div className="row mb-3">
+    <div className="row mb-3 mt-3">
 		{children}
 	</div>
 	<div className='row'>
 		<div className='col-6 mx-auto text-center'>
-			<input className='btn btn-primary mb-2' type="submit" value={cta}/>
+			<input className='btn btn-primary mb-1' type="submit" value={cta}/>
 		</div>
 	</div>
   </form>

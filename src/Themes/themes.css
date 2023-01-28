@@ -1,5 +1,32 @@
+
+
+.themes-container-expanded {
+  height: fit-content;
+}
+
+.expand-icon {
+  height: 30px;
+  position: relative;
+  float: right;
+  right: 4px;
+  bottom: 30px;
+}
+
+.expand-icon:hover {
+  cursor: pointer;
+}
+
+.retract-icon {
+  height: 30px;
+  position: relative;
+  float: right;
+  right: 4px;
+  bottom: 30px;
+  transform: rotate(180deg);
+}
+
 .themes-container {
-  height:  100vh;
+  height:  8vh;
   z-index: 1;
 }
 

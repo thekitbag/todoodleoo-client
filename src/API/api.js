@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-let prefix = '/api'
+let prefix = ''
 
 const getRequest = async (endpoint, params) => {
   const headers = {

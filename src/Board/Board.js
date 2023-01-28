@@ -248,7 +248,7 @@ class Board extends React.Component {
 							onDragEnd = {this.onDragEnd}
 							onDragUpdate={this.onDragUpdate}
 						>
-							<div className='board row mt-5' style={{margin: 0}}>
+							<div className='board row' style={{margin: 0}}>
 								<Themes
 									themes={this.state.themes}
 									filterByTheme={this.filterByTheme}
@@ -265,15 +265,6 @@ class Board extends React.Component {
 								  deleteTask={this.deleteTask}
 									themes={this.state.themes}
 									editTask={this.editTask}
-								/>
-								<Timeboxes
-									addTimebox={this.addTimebox}
-									deleteTimebox={this.deleteTimebox}
-									editTimebox={this.editTimebox}
-									timeboxes={this.state.timeboxes}
-									tasks={this.state.visibleTasks}
-									projectId={this.state.projectId}
-									updateTimeboxStatus={this.updateTimeboxStatus}
 								/>
 						 	</div>
 						</DragDropContext>
