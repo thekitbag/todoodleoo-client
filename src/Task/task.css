@@ -7,6 +7,12 @@
     float:  right;
 }
 
+.drag-identifier {
+  height: 2px;
+  width: 100%;
+  background-color: black;
+}
+
 .edit-pencil {
   height: 10px;
   float: right;

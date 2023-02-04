@@ -8,7 +8,7 @@ import plusIcon from './../img/plus_icon.png';
 
 const BacklogExplainer = (props) => {
 	return 	<div className='col-12 new-user-copy'>
-				<p>This is your task list. Drag and drop to reorders</p>
+				<p>Hit '+' to add a new task</p>
 			</div>
 }
 
@@ -47,7 +47,7 @@ class Backlog extends React.Component {
 						  		(task, index) =>
 						  		task.timebox === 'Backlog' &&
 							  		<Draggable key={task.id} draggableId={String(task.id)} index={index}>
-										{provided => (
+										{(provided, snapshot) => (
 
 											<div
 												ref={provided.innerRef}
@@ -55,13 +55,14 @@ class Backlog extends React.Component {
 				      					        {...provided.dragHandleProps}
 						    			    >
 								  				<BacklogTask
-														projectId={this.props.projectId}
-														themes={this.props.themes}
-														epics={this.props.epics}
-														allTimeboxes={this.props.allTimeboxes}
-														deleteTask={this.props.deleteTask}
-														editTask={this.props.editTask}
-														{...task}
+													isDragging={snapshot.isDragging}
+													projectId={this.props.projectId}
+													themes={this.props.themes}
+													epics={this.props.epics}
+													allTimeboxes={this.props.allTimeboxes}
+													deleteTask={this.props.deleteTask}
+													editTask={this.props.editTask}
+													{...task}
 													/>
 											</div>
 										)}

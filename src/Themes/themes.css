@@ -38,8 +38,9 @@
  .theme {
     font-size: 18px;
     text-align: center;
-    height: 70px;
-    margin: 4px;
+    height: 40px;
+    width: 90%;
+    margin-left: 5%;
 }
 
 .theme:hover {
@@ -48,7 +49,7 @@
 
 .theme-delete-icon {
   position: relative;
-  bottom: 40px;
+  top: 10px;
 }
 
 .theme-delete-icon .delete-icon {
@@ -59,7 +60,7 @@
 .theme-title {
   width:  80%;
   float: left;
-  line-height: 70px;
+  line-height: 40px;
   margin: auto;
 }
 

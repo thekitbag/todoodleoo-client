@@ -47,25 +47,26 @@ class Header extends React.Component {
 	  let buttons;
 
     if (isLoggedIn) {
-      buttons = <div>
-      						<div className='username'>{this.state.username}</div>
-      						<div className='btn btn-light' onClick={this.logout}>Logout</div>
-      					</div>;
+      buttons = <div className='row mt-3'>
+					<div className='col-3'>
+					</div>
+					<div className='col-8'>
+						<div className='btn btn-dark' onClick={this.logout}>Logout</div>
+					</div>
+				</div>
     } else {
-      buttons = <div className='auth-buttons'>
-		      				<div className='btn btn-primary' onClick={() => window.location.href = '/login'}>Login</div>
-					 				<div className='btn btn-primary' onClick={() => window.location.href = '/register'}>Sign Up</div>
+      buttons = <div className='auth-buttons mt-2'>
+		      				<div className='btn btn-secondary left' onClick={() => window.location.href = '/login'}>Login</div>
+					 				<div className='btn btn-secondary' onClick={() => window.location.href = '/register'}>Sign Up</div>
 		      			</div>
     }
 
 		return <div className='header text-center'>
 							<div className='row'>
-								<div className='col-3'>
+								<div className='col-6'>
 									<div className='logo' onClick={() => window.location.href = '/'}>Todoodleoo</div>
 								</div>
 								<div className='col-6'>
-								</div>
-								<div className='col-3'>
 									{buttons}
 								</div>
 							</div>

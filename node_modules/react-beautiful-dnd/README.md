@@ -1,3 +1,14 @@
+
+## ⚠️ Maintenance & support
+
+This library continues to be relied upon heavily by Atlassian products, but we are focused on other priorities right now and have no current plans for further feature development or improvements.
+
+It will continue to be here on GitHub and we will still make critical updates (e.g. security fixes, if any) as required, but will not be actively monitoring or replying to issues and pull requests.
+
+We recommend that you don’t raise issues or pull requests, as they will not be reviewed or actioned until further notice.
+
+---
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/2182637/53611918-54c1ff80-3c24-11e9-9917-66ac3cef513d.png" alt="react beautiful dnd logo" />
 </p>
@@ -142,15 +153,20 @@ There are a lot of libraries out there that allow for drag and drop interactions
 - [![kr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/South-Korea.png) **한글/Korean**](https://github.com/LeeHyungGeun/react-beautiful-dnd-kr)
 - [![ru](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Russia.png) **На русском/Russian**](https://github.com/vtereshyn/react-beautiful-dnd-ru)
 - [![pt](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Português/Portuguese**](https://github.com/dudestein/react-beautiful-dnd-pt)
-- [![gr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Greece.png) **Ελληνικά/Greek**](https://github.com/hdks55l/react-beautiful-dnd-gr)
+- [![gr](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Greece.png) **Ελληνικά/Greek**](https://github.com/milvard/react-beautiful-dnd-gr)
+- [![ja](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Japan.png) **日本語/Japanese**](https://github.com/eltociear/react-beautiful-dnd-ja)
 
-## Author ✍️
+## Creator ✍️
 
 Alex Reardon [@alexandereardon](https://twitter.com/alexandereardon)
+
+> Alex is no longer personally maintaning this project. The other wonderful maintainers are carrying this project forward.
+
+## Maintainers
+
+- [Daniel Del Core](https://twitter.com/danieldelcore)
+- Many other [@Atlassian](https://twitter.com/Atlassian)'s!
 
 ## Collaborators 🤝
 
 - Bogdan Chadkin [@IAmTrySound](https://twitter.com/IAmTrySound)
-- Luke Batchelor [@alukebatchelor](https://twitter.com/alukebatchelor)
-- Jared Crowe [@jaredjcrowe](https://twitter.com/jaredjcrowe)
-- Many other [@Atlassian](https://twitter.com/Atlassian)'s!

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-let prefix = ''
+let prefix = 'api'
 
 const getRequest = async (endpoint, params) => {
   const headers = {
@@ -22,6 +22,9 @@ const getRequest = async (endpoint, params) => {
     }
 
   } catch (err) {
+    if(err.response.status === 401) {
+      window.location = '/login'
+    }
     console.log(err)
   }
 }

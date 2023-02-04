@@ -52,11 +52,11 @@ class AddProject extends React.Component {
 						 <form onSubmit={this.handleSubmit}>
 						 	<div className='form-group'>
 								<input
-									className='form-control form-control-lg m-2'
+									className='form-control form-control-sm mb-2 text-center'
 				          type="text"
 				          value={this.state.title}
 				          onChange={event => this.setState({ title: event.target.value })}
-				          placeholder='Enter New Project Name'
+				          placeholder='New Project Name'
 				          required
 				        />
 				        </div>

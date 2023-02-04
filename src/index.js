@@ -13,9 +13,9 @@ import './index.css';
 
 ReactDOM.render(
   <Router>
-     <div className='main-container'>
+     <div className='container'>
        <Header />
-       <div className='content-container'>
+       <div className='container'>
          <Switch>
           <Route exact path="/" component={ Project }/>
           <Route path="/login" component={ Login }/>

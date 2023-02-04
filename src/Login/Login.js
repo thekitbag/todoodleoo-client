@@ -37,7 +37,7 @@ class Login extends React.Component {
     return <div className='login-page'>
           <div className='row'>
             <div className='col-8 mx-auto'>
-              <h2 className='container'>Log In</h2>
+              <h2 className='container text-center'>Log In</h2>
               <div id='error'></div>
               <form onSubmit={this.handleSubmit}>
                 <div className='form-group'>

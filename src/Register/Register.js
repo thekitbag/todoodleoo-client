@@ -26,7 +26,7 @@ class Register extends React.Component {
 		return  <div>
 					<div className='row register-page'>
 						<div className='col-8 mx-auto'>
-							<h2 className='container'>Sign Up</h2>
+							<h2 className='container text-center'>Sign Up</h2>
 							<form onSubmit={this.signUp}>
 								<div className='form-group'>
 									<input

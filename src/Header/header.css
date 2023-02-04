@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.left {
+  margin-right: 4px;
+}
+
 
 .logo {
   font-size: 18px;
@@ -12,18 +16,4 @@
 
 .logo:hover {
   cursor: pointer;
-}
-
-.username {
-  font-size: 12px;
-  font-weight:  600;
-  margin-bottom: 8px;
-}
-
-.auth-buttons {
-  line-height: 24px;
-}
-
-.auth-buttons .btn {
-  margin-left: 6px;
 }

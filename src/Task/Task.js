@@ -67,7 +67,14 @@ class Task extends React.Component {
 	}
 
 	render() {
-		return  <div className='card m-2'>
+		
+		return  <div className='card m-2' >
+					{this.props.isDragging === true ?  (
+						<div className='drag-identifier'></div>
+					) : ( 
+						<div></div>
+					)}
+			
 						{this.state.editing === false ? (
 
 							<div className='card-body'>

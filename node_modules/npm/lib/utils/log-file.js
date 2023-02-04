@@ -9,6 +9,7 @@ const fs = require('@npmcli/fs')
 const log = require('./log-shim')
 
 const padZero = (n, length) => n.toString().padStart(length.toString().length, '0')
+const globify = pattern => pattern.split('\\').join('/')
 
 const _logHandler = Symbol('logHandler')
 const _formatLogItem = Symbol('formatLogItem')
@@ -203,7 +204,9 @@ class LogFiles {
       this.#files.push(logStream.path)
       return logStream
     } catch (e) {
-      log.warn('logfile', `could not be created: ${e}`)
+      // If the user has a readonly logdir then we don't want to
+      // warn this on every command so it should be verbose
+      log.verbose('logfile', `could not be created: ${e}`)
     }
   }
 
@@ -225,7 +228,7 @@ class LogFiles {
       )
 
       // Always ignore the currently written files
-      const files = await glob(logGlob, { ignore: this.#files })
+      const files = await glob(globify(logGlob), { ignore: this.#files.map(globify), silent: true })
       const toDelete = files.length - this.#logsMax
 
       if (toDelete <= 0) {
@@ -236,7 +239,7 @@ class LogFiles {
 
       for (const file of files.slice(0, toDelete)) {
         try {
-          await rimraf(file)
+          await rimraf(file, { glob: false })
         } catch (e) {
           log.silly('logfile', 'error removing log file', file, e)
         }

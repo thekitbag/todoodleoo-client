@@ -10,7 +10,7 @@ import './themes.css'
 
 const ThemeExplainer = (props) => {
 	return 	<div className='col-12 new-user-copy'>
-						<p>Themes let you group similar tasks together</p>
+						<p>Themes let you group similar tasks together. Hit '+' to add a new theme.</p>
 					</div>
 }
 
@@ -22,8 +22,9 @@ const Theme = (props) => {
 
 		const Container = styled.div`
 			border: ${props => (props.isDraggingOver ? '4px solid gold' : 'none')};
-			margin-bottom: 20px;
-			width: 100%
+			margin-bottom: 6px;
+			width: 90%;
+			margin-left: 5%;
 		`;
 
 	return  <Droppable droppableId={theme}>
@@ -35,7 +36,7 @@ const Theme = (props) => {
 							>
 								<div
 
-									className='container card theme'
+									className='container theme'
 									style={{backgroundColor: props.data.color}}
 								>
 									<div
@@ -167,7 +168,7 @@ class Themes extends React.Component {
 							</div>
 							<div className='plus-icon-container'>
 								<img
-									alt="expand-icon"
+									alt="plus-icon"
 									className='plus-icon'
 									onClick={() => this.showAddThemeModal()}
 									src={plusIcon}
@@ -185,7 +186,6 @@ class Themes extends React.Component {
 										closeModal={this.showAddThemeModal}
 									/>
 								</div>	
-							
 							</div>
 						}
 					</div>

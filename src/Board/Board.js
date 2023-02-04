@@ -260,9 +260,9 @@ class Board extends React.Component {
 								/>
 								<Backlog
 									projectId={this.state.projectId}
-								  tasks={this.state.visibleTasks}
-								  addTask={this.addTask}
-								  deleteTask={this.deleteTask}
+								 	tasks={this.state.visibleTasks}
+								  	addTask={this.addTask}
+								  	deleteTask={this.deleteTask}
 									themes={this.state.themes}
 									editTask={this.editTask}
 								/>

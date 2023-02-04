@@ -5442,8 +5442,8 @@ function useHiddenTextElement(_ref2) {
 var AppContext = React.createContext(null);
 
 var peerDependencies = {
-	react: "^16.8.5 || ^17.0.0",
-	"react-dom": "^16.8.5 || ^17.0.0"
+	react: "^16.8.5 || ^17.0.0 || ^18.0.0",
+	"react-dom": "^16.8.5 || ^17.0.0 || ^18.0.0"
 };
 
 var semver = /(\d+)\.(\d+)\.(\d+)/;
