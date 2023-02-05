@@ -4,28 +4,20 @@ import { postRequest }from './../API/api.js'
 
 const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	const [title, setTitle] = useState('');
-	const [goalOne, setGoalOne] = useState('')
-	const [goalTwo, setGoalTwo] = useState('')
-	const [goalThree, setGoalThree] = useState('')
-	const changeFunctions = [setGoalOne, setGoalTwo, setGoalThree]
-	const values = [goalOne, goalTwo, goalThree]
-	const placeholders = ['Goal One', 'Goal Two', 'Goal Three']
+	const [goal, setGoal] = useState('')
 
 	const addTimebox = (event) => {
 		event.preventDefault()
-		const goals = [goalOne, goalTwo, goalThree]
 		const data = {
 			project_id: projectId,
 			title: title,
-			goals: goals
+			goal: goal
 		}
 		postRequest('/add_timebox', data)
 		.then((response) => {
 			updateTimeboxes(response.data)
 			setTitle('')
-			setGoalOne('')
-			setGoalTwo('')
-			setGoalThree('')
+			setGoal('')
 		}, (error) => {
 		  console.log(error);
 		});
@@ -37,8 +29,9 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	    >
 	      <FullWidthInputField value={title} onChange={setTitle} placeholder={'Timebox Name'}>
 	      </FullWidthInputField>
-	      <TripleInput values={values} changeFunctions={changeFunctions} placeholders={placeholders}>
-	      </TripleInput>
+		  <FullWidthInputField value={goal} onChange={setGoal} placeholder={'Goal'}>
+	      </FullWidthInputField>
+	
 	    </Form>
 	  );
 	};

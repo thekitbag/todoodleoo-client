@@ -1,5 +1,4 @@
 import React from 'react'
-import { AddTimebox } from './../Forms/AddItem.js'
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import {TimeboxTask} from './../Task/Task.js';
 import './timeboxes.css';
@@ -8,19 +7,13 @@ import pencil from './../img/pencil.svg';
 import deleteIcon from './../img/delete_icon.png';
 
 
-const TimeboxesExplainer = (props) => {
-	return 	<div className='col-12 new-user-copy'>
-				<p>Timeboxes Let you organise tasks into groups like to do today or to do before holiday</p>
-			</div>
-}
-
 class Timebox extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
 	        tasks: this.props.tasks,
 					title: this.props.title,
-					goals: this.props.goals
+					goal: this.props.goal
 	    };
 	  }
 	static getDerivedStateFromProps(nextProps, prevState){
@@ -171,13 +164,13 @@ class Timebox extends React.Component {
 														<input className='form-control' value={this.state.goals[1]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], event.target.value, this.state.goals[2]]})}/>
 														<input className='form-control' value={this.state.goals[2]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], this.state.goals[1], event.target.value]})}/>
 													</div>
-												</form> :
-
-											this.props.goals.map( goal =>
-												<div className='timebox-goal'>
-													{goal}
-												</div>
-												)}
+												</form> :			
+													'goal' in this.props && 
+													<div className='timebox-goal'>
+														{this.props.goal}
+													</div>
+													}
+												
 
 										</div>
 										<div className='timebox-tasks'>
@@ -212,19 +205,8 @@ class Timebox extends React.Component {
 
 class Timeboxes extends React.Component {
 	render() {
-		return  <div className='timeboxes-container col-5'>
-				  <div className='component-container'>
-				    <div className='component-title'>
-				  		<span>Timeboxes</span>
-				  	</div>
-				  	<AddTimebox
-				  	  projectId={this.props.projectId}
-				  	  updateTimeboxes={this.props.addTimebox}
-				  	/>
-				  	<div className='row m-2'>
-				  		{this.props.tasks.length === 0 &&
-				  			<TimeboxesExplainer />
-				  		}
+		return  <div className='col-12 mb-2'>
+				  	<div className='row mt-2 mb-2'>
 					  	{this.props.timeboxes.map(timebox =>
 					  		timebox.title !== 'Backlog' &&
 					  		<Timebox
@@ -237,9 +219,7 @@ class Timeboxes extends React.Component {
 								{...timebox}
 							 />
 					  		)}
-
 					</div>
-				  </div>
 				</div>
 	}
 }

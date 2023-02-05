@@ -10,8 +10,10 @@ import './themes.css'
 
 const ThemeExplainer = (props) => {
 	return 	<div className='col-12 new-user-copy'>
-						<p>Themes let you group similar tasks together. Hit '+' to add a new theme.</p>
-					</div>
+				<div className='container'>
+					<p>Themes let you group similar tasks together. Hit '+' to add a new theme.</p>
+				</div>
+			</div>
 }
 
 const Theme = (props) => {
@@ -138,7 +140,7 @@ class Themes extends React.Component {
 						</div>
 					</div>
 		} else {
-			return <div className='themes-container-expanded col-12 mb-3' id='themes-container'>
+			return <div className='themes-container-expanded col-12 mb-2' id='themes-container'>
 						<div className='component-container'>
 							<div className='component-title'>
 								<span>Themes</span>

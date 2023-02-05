@@ -6,6 +6,15 @@ import Themes from './../Themes/Themes.js'
 import Backlog from './../Backlog/Backlog.js'
 import Timeboxes from './../Timeboxes/Timeboxes.js'
 import { DragDropContext } from 'react-beautiful-dnd';
+import { AddTimebox } from './../Forms/AddItem.js';
+
+const TimeboxesExplainer = (props) => {
+	return 	<div className='col-12 new-user-copy'>
+				<div className='container'>
+					<p>Timeboxes Let you organise tasks into groups like to do today or to do before holiday</p>
+				</div>
+			</div>
+}
 
 class Board extends React.Component {
 	constructor(props) {
@@ -257,6 +266,27 @@ class Board extends React.Component {
 									deleteTheme={this.deleteTheme}
 									filtering={this.state.filtering}
 									clearFilters={this.clearFilters}
+								/>
+								{this.state.timeboxes.length === 1 &&
+									<div className='component-container mb-2'>
+										<div className='component-title'>
+											<span>Timebox</span>
+											<AddTimebox
+												projectId={this.state.projectId}
+												updateTimeboxes={this.addTimebox}
+											/>
+										</div>
+										<TimeboxesExplainer />
+									</div>
+								}
+								<Timeboxes
+									addTimebox={this.addTimebox}
+									deleteTimebox={this.deleteTimebox}
+									editTimebox={this.editTimebox}
+									timeboxes={this.state.timeboxes}
+									tasks={this.state.visibleTasks.filter(t => t.timebox !== 'Backlog')}
+									projectId={this.state.projectId}
+									updateTimeboxStatus={this.updateTimeboxStatus}
 								/>
 								<Backlog
 									projectId={this.state.projectId}
