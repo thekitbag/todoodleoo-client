@@ -24,11 +24,22 @@ class Board extends React.Component {
 	    };
 	  }
 
-		addTask = (taskData) => {
-			const newTask = {...taskData}
-				this.setState(prevState => ({
-		    		tasks: [newTask, ...this.state.tasks],
-		    		visibleTasks: [newTask, ...this.state.tasks]
+	  shareProject = () => {
+
+		const data = {
+			username: 'sharee',
+			project_id: this.state.projectId
+		}
+
+		postRequest('/share_project', data)
+	  }
+	
+
+	addTask = (taskData) => {
+		const newTask = {...taskData}
+			this.setState(prevState => ({
+		    	tasks: [newTask, ...this.state.tasks],
+		    	visibleTasks: [newTask, ...this.state.tasks]
 		    	}));
   	};
 
@@ -279,6 +290,7 @@ class Board extends React.Component {
 										<TimeboxesExplainer />
 									</div>
 								}
+								<div className='btn btn-primary' onClick={this.shareProject}>Share</div>
 								<Timeboxes
 									addTimebox={this.addTimebox}
 									deleteTimebox={this.deleteTimebox}
