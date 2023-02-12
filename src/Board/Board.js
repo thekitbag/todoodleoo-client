@@ -8,7 +8,6 @@ import Backlog from './../Backlog/Backlog.js'
 import Timeboxes from './../Timeboxes/Timeboxes.js'
 import TimeboxesExplainer from '../Explainer/TimeboxesExplainer';
 import Modal from './../Forms/Modal';
-import onDragEnd from './dragAndDrop';
 import { AddTimebox } from './../Forms/AddItem.js';
 import shareIcon from './../img/share_icon.png';
 
@@ -261,7 +260,7 @@ class Board extends React.Component {
 	render() {
 		return   this.state.dataReceived === true ? (
 						<DragDropContext
-							onDragEnd = {onDragEnd}
+							onDragEnd = {this.onDragEnd}
 							onDragUpdate={this.onDragUpdate}
 						>
 							<div className='board row' style={{margin: 0}}>
