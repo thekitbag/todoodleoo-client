@@ -5,7 +5,6 @@ import expandIcon from './../img/expand_icon.png';
 import plusIcon from './../img/plus_icon.png';
 
 import { Droppable } from 'react-beautiful-dnd';
-import { AddTheme } from './../Forms/AddItem.js'
 import './themes.css'
 
 const ThemeExplainer = (props) => {
@@ -172,29 +171,18 @@ class Themes extends React.Component {
 								<img
 									alt="plus-icon"
 									className='plus-icon'
-									onClick={() => this.showAddThemeModal()}
+									onClick={() => this.props.showModal()}
 									src={plusIcon}
 								></img>
 							</div>
 						</div>
-						{this.state.showAddThemeModalStatus === true &&
-							<div className='modal-container'>
-								<div className='add-modal-bg' onClick={() => this.showAddThemeModal()}>								
-								</div>
-								<div className='add-modal'>
-									<AddTheme
-										projectId={this.props.projectId}
-										updateThemes={this.props.addTheme}
-										closeModal={this.showAddThemeModal}
-									/>
-								</div>	
-							</div>
-						}
 					</div>
 					
 		}
 	}
 }
+
+
 		
 
 

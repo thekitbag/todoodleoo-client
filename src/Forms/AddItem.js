@@ -51,7 +51,6 @@ const AddTask = ({closeModal, projectId, updateTasks}) => {
 	    	const taskData = response.data.tasks[0]
 	    	setTitle('')
 			updateTasks(taskData)
-			closeModal()
 		}, (error) => {
 			console.log(error);
 		});
@@ -81,9 +80,6 @@ const AddTheme = ({ closeModal, projectId, updateThemes }) => {
 				postRequest('/add_theme', data)
 				.then((response) => {
 				  updateThemes(response.data);
-				  closeModal()
-
-
 				}, (error) => {
 				  console.log(error);
 				});
@@ -103,12 +99,13 @@ const AddTheme = ({ closeModal, projectId, updateThemes }) => {
 
 const Form = ({ onSubmit, cta, children }) => (
   <form onSubmit={onSubmit}>
+	<h1 className="text-center mt-2  mb-2">{cta}</h1>
     <div className="row mb-3 mt-3">
 		{children}
 	</div>
 	<div className='row'>
 		<div className='col-6 mx-auto text-center'>
-			<input className='btn btn-primary mb-1' type="submit" value={cta}/>
+			<input className='btn btn-primary mb-5' type="submit" value={cta}/>
 		</div>
 	</div>
   </form>
@@ -120,16 +117,5 @@ const FullWidthInputField = ({ value, onChange, children, placeholder }) => (
 		<input className='form-control' placeholder={placeholder} value={value} type="text" onChange={event => onChange(event.target.value)}/>
 	</div>
 );
-
-const TripleInput = ({ values, changeFunctions, children, placeholders }) => {
-	const [p1, p2, p3] = [placeholders[0], placeholders[1], placeholders[2]]
-	const [v1, v2, v3] = [values[0], values[1], values[2]]
-	const [f1, f2, f3] = [changeFunctions[0], changeFunctions[1], changeFunctions[2]]
-	return  <div className='col-12 mx-auto mt-2 goals-group'>
-				<input className='form-control' placeholder={p1} value={v1} type="text" onChange={event => f1(event.target.value)}/>
-				<input className='form-control' placeholder={p2} value={v2} type="text" onChange={event => f2(event.target.value)}/>
-				<input className='form-control' placeholder={p3} value={v3} type="text" onChange={event => f3(event.target.value)}/>
-			</div>
-};
 
 export {AddTheme, AddTask, AddTimebox}
