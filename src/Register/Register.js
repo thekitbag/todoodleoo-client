@@ -1,13 +1,14 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import './register.css';
-import { postRequest }from './../API/api.js'
+import { postRequest, getRequest }from './../API/api.js'
 
 
 class Register extends React.Component {
 
 	state = { username: '', password: ''};
 
-	signUp = (event) => {
+	signUp = async (event) => {
 		event.preventDefault()
 		const data = {
 			username: this.state.username,
@@ -20,9 +21,46 @@ class Register extends React.Component {
 		  console.log(error);
 		});
     	this.setState({username: '', password: ''})
-  	};
+		const logindata = {
+			username: this.state.username,
+			password: this.state.password
+		  }
+		try {
+			await postRequest('/login', logindata)
+			.then((resp) => {
+				window.location = '/' 
+			}, (error) => {
+			  console.log(error)
+			})
+		  } catch (err) {
+			console.log('error:', err)
+		  }
+			this.setState({username : '', password: ''})
+		};
+  
+
+	authenticated = async () => {
+		await getRequest('/me')
+		.then((response) => {
+		  if (response.data.user_id !== -1) {  //user is not logged out
+			this.setState({authenticated: true});
+			} else {
+			  console.log('logged out user')
+						}
+					})
+	  }
 
 	render() {
+		this.authenticated()
+
+		if (this.state.authenticated === true) {
+			return <Redirect
+			  to={{
+				pathname: "/",
+			  }}
+			/>
+		  }
+
 		return  <div>
 					<div className='row register-page'>
 						<div className='col-8 mx-auto'>

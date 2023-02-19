@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { postRequest }from './../API/api.js'
 
-const ShareForm = ( {projectId} ) => {
+const ShareForm = ( {projectId, hideModal} ) => {
     const [username, setUsername] = useState('');
 
     const shareProject = (event) => {
@@ -11,6 +11,7 @@ const ShareForm = ( {projectId} ) => {
 			project_id: projectId
 		}
 		postRequest('/share_project', data)
+        hideModal()
 	  }
 
 

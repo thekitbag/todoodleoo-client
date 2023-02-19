@@ -7,6 +7,7 @@ import Login from './Login/Login.js'
 import Register from './Register/Register.js'
 import { Board } from './Board/Board.js'
 import reportWebVitals from './reportWebVitals';
+import * as serviceWorker from "./serviceWorker";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
@@ -32,3 +33,6 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+serviceWorker.register();
+

@@ -102,7 +102,7 @@ class App extends React.Component {
 
 	render() {
 		if (this.state.dataReceived === false){
-			return <div>loading</div>
+			return <div> <br></br><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
 		} else {
 			return <div className='projects-list'>
 							<Boards boards={this.state.projects}/>

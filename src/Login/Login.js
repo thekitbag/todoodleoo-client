@@ -1,9 +1,10 @@
-import React from "react";
-import { postRequest }from './../API/api.js'
+import React from "react"
+import { Redirect } from "react-router-dom";
+import { postRequest, getRequest }from './../API/api.js'
 import './login.css';
 
 class Login extends React.Component {
-  state = { username: '', password: ''};
+  state = { username: '', password: '', authenticated: false};
 
   loginFailed = () => {
    const el = document.getElementById('error')
@@ -33,7 +34,26 @@ class Login extends React.Component {
     }
       this.setState({username : '', password: ''})
   };
+
+  authenticated = async () => {
+    await getRequest('/me')
+    .then((response) => {
+      if (response.data.user_id !== -1) {  //user is not logged out
+        this.setState({authenticated: true});
+        } else {
+          console.log('logged out user')
+					}
+				})
+  }
   render() {
+    this.authenticated()
+    if (this.state.authenticated === true) {
+      return <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    }
     return <div className='login-page'>
           <div className='row'>
             <div className='col-8 mx-auto'>

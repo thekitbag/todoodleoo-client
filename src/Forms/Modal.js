@@ -9,7 +9,10 @@ class Modal extends React.Component {
 
     getModalForm = () => {
         if (this.props.show === 'share') {
-            return <ShareBoard projectId={this.props.projectId}/>
+            return <ShareBoard 
+                        projectId={this.props.projectId}
+                        hideModal={this.hideModal}
+                    />
         } else if (this.props.show === 'task') {
             return <AddTask 
                         projectId={this.props.projectId}
