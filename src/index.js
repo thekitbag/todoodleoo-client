@@ -6,6 +6,7 @@ import Header from './Header/Header.js'
 import Login from './Login/Login.js'
 import Register from './Register/Register.js'
 import { Board } from './Board/Board.js'
+import { List } from './List/List.js'
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from "./serviceWorker";
 
@@ -22,6 +23,7 @@ ReactDOM.render(
           <Route path="/login" component={ Login }/>
           <Route path="/register" component={ Register }/>
           <Route path="/board" component={ Board }/>
+          <Route path="/list" component={ List }/>
          </Switch>
       </div>
     </div>

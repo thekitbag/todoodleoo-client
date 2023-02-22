@@ -28,7 +28,8 @@ const Theme = (props) => {
 			margin-left: 5%;
 		`;
 
-	return  <Droppable droppableId={theme}>
+	return  <div className={theme}>
+				<Droppable droppableId={theme}>
 						{(provided, snapshot) => (
 							<Container  className="col-12"
 										onClick = {() => props.filterByTheme(props.title)}
@@ -41,7 +42,7 @@ const Theme = (props) => {
 									style={{backgroundColor: props.data.color}}
 								>
 									<div
-										className='theme-title'
+										className='theme-title w-100'
 									>
 										<span>
 											{props.data.title}
@@ -61,6 +62,7 @@ const Theme = (props) => {
 				  		</Container>
 			  		)}
 					</Droppable>
+				</div>
 }
 
 const ClearFilters = (props) => {
@@ -83,7 +85,6 @@ class Themes extends React.Component {
 
     this.state = {
       themes: this.props.themes,
-	  showThemes: false,
       showAddThemeModalStatus: false
     };
   }
@@ -104,76 +105,73 @@ class Themes extends React.Component {
 	  }
 	}
 
-	showThemes = () => {
-		this.setState({showThemes: !this.state.showThemes})
+	showAddThemeModal = () => {
+		this.setState({showAddThemeModalStatus: !this.state.showAddThemeModalStatus})
 	}
-
-  showAddThemeModal = () => {
-  	this.setState({showAddThemeModalStatus: !this.state.showAddThemeModalStatus})
-  }
 
 	deleteTheme = (themeId) => {
 		this.props.deleteTheme(themeId)
   };
 
-  clearFilters = () => {
-  	this.props.clearFilters()
-  }
+	clearFilters = () => {
+		this.props.clearFilters()
+	}
 
 
 
 	render() {
-		if (this.state.showThemes === false) {
-			return <div className='themes-container expanded col-12 mb-3' id='themes-container'>
-						<div className='component-container'>
-							<div className='component-title'>
-								<span>Themes</span>
-							</div>
-							<img
-								alt="expand-icon"
-								className='expand-icon'
-								onClick={() => this.showThemes()}
-								src={expandIcon}
-							>
-							</img>
+		if (this.props.showThemesStatus === false) {
+			return <div 	className='themes-container col-2'
+							id='themes-container'
+					>
+						<div className='widget-title'>
+							<span>Themes</span>
 						</div>
+						<img
+							alt="expand-icon"
+							className='expand-icon'
+							onClick={() => this.props.showThemes()}
+							src={expandIcon}
+						>
+						</img>
 					</div>
+					
 		} else {
-			return <div className='themes-container-expanded col-12 mb-2' id='themes-container'>
-						<div className='component-container'>
-							<div className='component-title'>
-								<span>Themes</span>
-							</div>
+			return <div className='themes-container-expanded col-6' id='themes-container'>
+						<div className='component-title'>
+							<span>Themes</span>
+						</div>
+						<img
+							alt="expand-icon"
+							className='retract-icon'
+							onClick={() => this.props.hideThemes()}
+							src={expandIcon}
+						>
+						</img>
+						<div className="themes-holder">
+									{this.props.themes.length === 0 &&
+										<ThemeExplainer />
+									}
+									{this.state.themes.map(theme =>
+										<Theme
+											projectId={this.props.projectId}
+											key={theme.id} data={theme}
+											filterByTheme={this.filterByTheme}
+											title={theme.title}
+											deleteTheme={this.deleteTheme}
+										/>)}
+									{this.props.filtering === true &&
+										<ClearFilters clearFilters={this.clearFilters} />
+									}
+						</div>
+						<div className='plus-icon-container text-center'>
+							<div className='icon-holder'>
 							<img
-								alt="expand-icon"
-								className='retract-icon'
-								onClick={() => this.showThemes()}
-								src={expandIcon}
-							>
-							</img>
-							<div className="themes-holder">
-										{this.props.themes.length === 0 &&
-											<ThemeExplainer />
-										}
-										{this.state.themes.map(theme =>
-											<Theme
-												projectId={this.props.projectId}
-												key={theme.id} data={theme}
-												filterByTheme={this.filterByTheme}
-												title={theme.title}
-												deleteTheme={this.deleteTheme}
-											/>)}
-										{this.props.filtering === true &&
-											<ClearFilters clearFilters={this.clearFilters} />
-										}
-							</div>
-							<div className='plus-icon-container'>
-								<img
-									alt="plus-icon"
-									className='plus-icon'
-									onClick={() => this.props.showModal()}
-									src={plusIcon}
-								></img>
+								alt="plus-icon"
+								className='plus-icon'
+								onClick={() => this.props.showModal()}
+								src={plusIcon}
+							></img>
 							</div>
 						</div>
 					</div>

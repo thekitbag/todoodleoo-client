@@ -17,6 +17,13 @@ class Modal extends React.Component {
             return <AddTask 
                         projectId={this.props.projectId}
                         updateTasks={this.props.addTask}
+                        cta='Add Task'
+                    />
+        } else if (this.props.show === 'item') {
+            return <AddTask 
+                        projectId={this.props.projectId}
+                        updateTasks={this.props.addTask}
+                        cta='Add Item'
                     />
         } else if (this.props.show === 'theme'){
             return <AddTheme 

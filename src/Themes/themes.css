@@ -1,7 +1,25 @@
 
-
 .themes-container-expanded {
-  height: fit-content;
+  background-color: whitesmoke;
+  border: 2px solid;
+  position: fixed;
+  left: 0;
+  z-index: 2;
+  border-radius: 0px 10px 10px 0px;
+  top: 50%;
+  transform: translateY(calc(-50% - 142px))
+}
+
+.themes-container {
+  background-color: whitesmoke;
+  border: 2px solid;
+  position: fixed;
+  height: 8vh;
+  left: 0;
+  top: 50%;
+  transform: translateY(calc(-50% - 142px));
+  z-index: 2;
+  border-radius: 0px 10px 10px 0px;
 }
 
 .expand-icon {
@@ -9,7 +27,9 @@
   position: relative;
   float: right;
   right: 4px;
-  bottom: 30px;
+  top: 12px;
+  transform: rotate(270deg);
+
 }
 
 .expand-icon:hover {
@@ -18,16 +38,11 @@
 
 .retract-icon {
   height: 30px;
-  position: relative;
+  position: fixed;
   float: right;
-  right: 4px;
-  bottom: 30px;
-  transform: rotate(180deg);
-}
-
-.themes-container {
-  height:  8vh;
-  z-index: 1;
+  left: 178px;
+  transform: rotate(90deg);
+  top: 50%;
 }
 
 .main-themes-container {
@@ -36,11 +51,9 @@
 }
 
  .theme {
-    font-size: 18px;
+    font-size: 12px;
     text-align: center;
     height: 40px;
-    width: 90%;
-    margin-left: 5%;
 }
 
 .theme:hover {
@@ -54,12 +67,13 @@
 
 .theme-delete-icon .delete-icon {
   width: 20px;
-  height:  20px;
+  height: 20px;
+  position: relative;
+  bottom: 40px;
+  left: 8px;
 }
 
 .theme-title {
-  width:  80%;
-  float: left;
   line-height: 40px;
   margin: auto;
 }
@@ -89,4 +103,15 @@
     line-height: 14px;
     margin-top: 4px;
     margin-bottom: 4px;
+}
+
+.widget-title {
+  font-size: 16px;
+  position: relative;
+  right: 9px;
+}
+
+.icon-holder {
+  width: 40px;
+  margin:auto;
 }

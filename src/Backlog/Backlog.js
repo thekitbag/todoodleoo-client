@@ -16,7 +16,7 @@ class Backlog extends React.Component {
 		return  <div className='backlog-container col-12'>
 				  <div className='component-container'>
 				  	<div className='component-title'>
-				  		<span>Backlog</span>
+				  		<span>{this.props.title}</span>
 				  	</div>
 					<div className='plus-icon-container'>
 						<img
@@ -46,8 +46,10 @@ class Backlog extends React.Component {
 												{...provided.draggableProps}
 				      					        {...provided.dragHandleProps}
 						    			    >
+												{snapshot.isDragging && <div className='draghelper'></div>}
 								  				<BacklogTask
 													isDragging={snapshot.isDragging}
+													startDrag={this.startDrag}
 													projectId={this.props.projectId}
 													themes={this.props.themes}
 													epics={this.props.epics}

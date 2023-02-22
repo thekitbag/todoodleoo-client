@@ -1,18 +1,14 @@
 import React from 'react';
 import 'bootstrap';
-import './board.css';
 import { getRequest, postRequest }from './../API/api.js'
 import { DragDropContext } from 'react-beautiful-dnd';
 import Themes from './../Themes/Themes.js'
 import Backlog from './../Backlog/Backlog.js'
-import Timeboxes from './../Timeboxes/Timeboxes.js'
-import TimeboxesExplainer from '../Explainer/TimeboxesExplainer';
 import Modal from './../Forms/Modal';
-import { AddTimebox } from './../Forms/AddItem.js';
 import shareIcon from './../img/share_icon.png';
 
 
-class Board extends React.Component {
+class List extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -24,24 +20,13 @@ class Board extends React.Component {
 	  
 	getTasks = async (projectId) => {
 	const resp = await getRequest('/get_tasks', `project_id=${projectId}`)
-	const timeboxes = resp.data['timeboxes']
 	const themes = resp.data['themes']
 	this.setState({ 
 		projectTitle: resp.data['project_title'],
 		tasks: resp.data['tasks'],
 		visibleTasks: resp.data['tasks'],
 		themes:themes,
-		timeboxes: timeboxes
 		});
-	}
-	
-	checkForInProgressTimeboxes = (timeboxes) => {
-		timeboxes.forEach(timebox => {
-	  if (timebox.status === 'In Progress') {
-		  this.setState({timeboxRedirect: timebox.id, ipTimeboxName: timebox.title})
-	  }
-	  this.setState({dataReceived: true})
-	  })
 	}
 
 	 async componentDidMount() {
@@ -52,9 +37,8 @@ class Board extends React.Component {
 		  } else {
 			  this.setState({projectId: projectId})
 			  await this.getTasks(projectId);
-			  this.checkForInProgressTimeboxes(this.state.timeboxes) //why is this function essential for rendrering anything????
+              this.setState({dataReceived: true})
 		  }
-
   }
 	
 	addTask = (taskData) => {
@@ -93,34 +77,6 @@ class Board extends React.Component {
 		vtasks.splice(idx,1,task)
 		this.setState({tasks: tasks, visibleTasks:vtasks})
 	};
-
-  	addTimebox = (timebox) => {
-  		this.setState(prevState => ({
-    		timeboxes: [...this.state.timeboxes, timebox]
-    	}));
-  	}
-
-	deleteTimebox = (timeboxId) => {
-		const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
-		this.setState({timeboxes: timeboxes})
-	}
-
-	editTimebox = (timeboxId, timeboxData) => {
-		console.log(timeboxData)
-		const timeboxes = this.state.timeboxes
-		const timebox = timeboxes.find(tb => tb.id === timeboxId)
-		const idx = timeboxes.indexOf(timebox)
-		timebox.title = timeboxData.title
-		timebox.goals = timeboxData.goals
-		timeboxes.splice(idx, 1, timebox)
-		this.setState({timeboxes: timeboxes})
-	}
-
-	updateTimeboxStatus = (timeboxId, status) => {
-		const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
-		this.setState({timeboxes: timeboxes})
-		this.getTasks(this.state.projectId)
-	}
 
   	addTheme = (themeData) => {
 		this.hideModal()
@@ -210,27 +166,6 @@ class Board extends React.Component {
 	
 		}
 	
-		else if (destination.droppableId.slice(0,7) === 'Timebox') {
-			//landed in a timebox - get timebox, remove from tasks, update timebox and put back in new position
-			const timebox = destination.droppableId.slice(8,)
-			  const data = {
-				  project_id: this.state.projectId,
-				  task_id: taskId,
-				  priority: result.destination.index,
-				  timebox: timebox
-			  }
-			  postRequest('/update_task', data)
-	
-			obj.timebox = timebox
-	
-			const newTasks = this.state.tasks.filter(t => t !== obj)
-			  newTasks.splice(result.destination.index,0, obj)
-			  this.setState({
-			  tasks: newTasks,
-			  visibleTasks: newTasks
-			  })
-		  }
-	
 		  else if (destination.droppableId === 'Backlog') {
 			  //landed in backlog - remove from source list, add to backlog and update state with all the updated lists
 			  const data = {
@@ -267,7 +202,6 @@ class Board extends React.Component {
 	  } else {
 		  console.log('Unexpected drop destination')
 	  }
-	
 	}
 
 	render() {
@@ -294,35 +228,14 @@ class Board extends React.Component {
 									showThemes={this.showThemes}
 									hideThemes={this.hideThemes}
 								/>
-								{this.state.timeboxes.length === 1 &&
-									<div className='component-container mb-2'>
-										<div className='component-title'>
-											<span>Timebox</span>
-											<AddTimebox
-												projectId={this.state.projectId}
-												updateTimeboxes={this.addTimebox}
-											/>
-										</div>
-										<TimeboxesExplainer />
-									</div>
-								}
-								<Timeboxes
-									addTimebox={this.addTimebox}
-									deleteTimebox={this.deleteTimebox}
-									editTimebox={this.editTimebox}
-									timeboxes={this.state.timeboxes}
-									tasks={this.state.visibleTasks.filter(t => t.timebox !== 'Backlog')}
-									projectId={this.state.projectId}
-									updateTimeboxStatus={this.updateTimeboxStatus}
-								/>
 								<Backlog
 									projectId={this.state.projectId}
 								 	tasks={this.state.visibleTasks}
 								  	deleteTask={this.deleteTask}
 									themes={this.state.themes}
 									editTask={this.editTask}
-									showAddTaskModal={() => this.showModal('task')}
-									title='Backlog'
+									showAddTaskModal={() => this.showModal('item')}
+                                    title='List'
 								/>
 								<Modal 
 									show={this.state.showModalStatus} 
@@ -339,4 +252,4 @@ class Board extends React.Component {
 }
 
 
-export { Board }
+export { List }

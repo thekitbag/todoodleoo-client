@@ -37,7 +37,7 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	};
 
 
-const AddTask = ({closeModal, projectId, updateTasks}) => {
+const AddTask = ({closeModal, projectId, updateTasks, cta}) => {
 	const [title, setTitle] = useState('');
 
 	const addTask = async (event) => {
@@ -59,9 +59,9 @@ const AddTask = ({closeModal, projectId, updateTasks}) => {
 	return (
 	    <Form
 	      onSubmit={addTask}
-	      cta='Add Task'
+	      cta={cta}
 	    >
-	      <FullWidthInputField value={title} onChange={setTitle} placeholder={'Task Name'}>
+	      <FullWidthInputField value={title} onChange={setTitle} placeholder={cta}>
 	      </FullWidthInputField>
 
 	    </Form>

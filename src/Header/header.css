@@ -12,6 +12,7 @@
   font-size: 18px;
   margin-top: 18px;
   font-family: monospace;
+  user-select: none;
 }
 
 .logo:hover {

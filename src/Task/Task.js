@@ -60,9 +60,7 @@ class Task extends React.Component {
 		if(themeName==='No Theme') {
 			return;
 		}
-		console.log(this.props.themes)
 		const theme = this.props.themes.find( o => o.title === themeName)
-		console.log(theme)
 		return theme.color
 	}
 
