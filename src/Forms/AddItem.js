@@ -6,21 +6,10 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	const [title, setTitle] = useState('');
 	const [goal, setGoal] = useState('')
 
+
 	const addTimebox = (event) => {
 		event.preventDefault()
-		const data = {
-			project_id: projectId,
-			title: title,
-			goal: goal
-		}
-		postRequest('/add_timebox', data)
-		.then((response) => {
-			updateTimeboxes(response.data)
-			setTitle('')
-			setGoal('')
-		}, (error) => {
-		  console.log(error);
-		});
+		updateTimeboxes(title, goal)
 	}
 	return (
 	    <Form
@@ -37,23 +26,12 @@ const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
 	};
 
 
-const AddTask = ({closeModal, projectId, updateTasks, cta}) => {
+const AddTask = ({ updateTasks, cta}) => {
 	const [title, setTitle] = useState('');
 
-	const addTask = async (event) => {
+	const addTask = (event) => {
 		event.preventDefault()
-		const data = {
-			title: title,
-			project_id: projectId
-		}
-		postRequest('/add_task', data)
-	    .then((response) => {
-	    	const taskData = response.data.tasks[0]
-	    	setTitle('')
-			updateTasks(taskData)
-		}, (error) => {
-			console.log(error);
-		});
+		updateTasks(title)
 	  };
 
 	return (

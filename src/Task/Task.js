@@ -2,7 +2,6 @@ import React from 'react';
 import pencil from './../img/pencil.svg';
 import deleteIcon from './../img/delete_icon.png';
 import './task.css';
-import { postRequest }from './../API/api.js'
 
 
 
@@ -37,23 +36,9 @@ class Task extends React.Component {
 		this.setState({editing: true})
 	}
 
-	save = (event) => {
+	save = () => {
 		this.setState({editing: false, themeColor: this.getThemeColor(this.state.theme)})
-		const data = {
-			project_id: this.state.projectId,
-		  id: this.state.id,
-		  title: this.state.title,
-		  status: this.state.status,
-		  theme: this.state.theme,
-		  timeboxes: this.state.timeboxes,
-		  priority: this.state.priority
-		}
-		postRequest('/edit_task', data)
-		.then((resp) => {
-			this.props.editTask(this.state.id, this.state.theme)
-		}, (error) => {
-			console.log(error)
-		})
+		this.props.editTask(this)
 	}
 
 	getThemeColor = (themeName) => {

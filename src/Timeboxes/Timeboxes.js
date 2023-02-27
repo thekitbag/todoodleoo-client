@@ -29,7 +29,6 @@ class Timebox extends React.Component {
 		task.status = targetStatus
 		const indx = this.state.tasks.indexOf(task)
   		tasks.splice(indx, 1, task)
-  		console.log(tasks)
   		this.setState({tasks: [...tasks]})
 	}
 
