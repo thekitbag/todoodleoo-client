@@ -16,17 +16,14 @@ const ThemeExplainer = (props) => {
 }
 
 const Theme = (props) => {
-		const deleteTheme = () => {
-		props.deleteTheme(props.data.id)
-	}
-		const theme = String('Theme:' + props.data.id)
+	const theme = String('Theme:' + props.data.id)
 
-		const Container = styled.div`
-			border: ${props => (props.isDraggingOver ? '4px solid gold' : 'none')};
-			margin-bottom: 6px;
-			width: 90%;
-			margin-left: 5%;
-		`;
+	const Container = styled.div`
+		border: ${props => (props.isDraggingOver ? '4px solid gold' : 'none')};
+		margin-bottom: 6px;
+		width: 90%;
+		margin-left: 5%;
+	`;
 
 	return  <div className={theme}>
 				<Droppable droppableId={theme}>
@@ -52,7 +49,7 @@ const Theme = (props) => {
 										<img
 											alt="delete-icon"
 											className='delete-icon'
-											onClick={() => deleteTheme()}
+											onClick={() => props.deleteTheme(props.data.id)}
 											src={deleteIcon}
 										>
 										</img>

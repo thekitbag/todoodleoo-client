@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { postRequest }from './../API/api.js'
 
 
 const AddTimebox = ({onSubmit, projectId, updateTimeboxes}) => {
@@ -49,20 +48,10 @@ const AddTask = ({ updateTasks, cta}) => {
 const AddTheme = ({ closeModal, projectId, updateThemes }) => {
 	  const [title, setTitle] = useState('');
 
-	  const addTheme = async (event) => {
-	  	event.preventDefault()
-			const data = {
-			  title: title,
-			  project_id: projectId
-			  }
-				postRequest('/add_theme', data)
-				.then((response) => {
-				  updateThemes(response.data);
-				}, (error) => {
-				  console.log(error);
-				});
-				setTitle('')
-		}
+	  const addTheme = (event) => {
+		event.preventDefault()
+		updateThemes(title)
+	}
 
 	  return (
 	    <Form

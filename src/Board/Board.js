@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bootstrap';
 import './board.css';
-import { postRequest }from './../API/api.js'
 import { DragDropContext } from 'react-beautiful-dnd';
 import Themes from './../Themes/Themes.js'
 import Backlog from './../Backlog/Backlog.js'
@@ -16,7 +15,7 @@ import {handleThemeDrop,
 	handleSameListReorder,
 	handleMoveBackToBacklogDrop
 	} from './dragAndDrop'
-import { getTasks, addTask, deleteTask, editTask, addTimebox } from './crud';
+import { Create, Read, Update, Delete } from './crud';
 import { handleEditTaskResponse } from './responseHandlers';
 
 class Board extends React.Component {
@@ -37,66 +36,57 @@ class Board extends React.Component {
 			this.props.history.push('/')
 		} else {
 			this.setState({projectId: projectId});
-			await getTasks(projectId, this);
+			const r = new Read()
+			await r.getTasks(projectId, this);
 			this.setState({dataReceived: true});
 		}
  	}
 	  
 	addTask = async (title) => {
-		addTask(title, this)
+		const c = new Create()
+		c.addTask(title, this)
 	}
 	
 	deleteTask = async (taskId) => {
-		deleteTask(taskId, this)
+		const d = new Delete()
+		d.deleteTask(taskId, this)
 	}
 
 	editTask = async (taskObj) => {
-		let resp = await editTask(taskObj)
+		const u = new Update()
+		let resp = await u.editTask(taskObj)
 		handleEditTaskResponse(resp, this)
 	}
 
-	newAddTimebox = async (title, goal) => {
-		addTimebox(title, goal, this)
+	addTimebox = async (title, goal) => {
+		const c = new Create()
+		c.addTimebox(title, goal, this)
 	}
 
 	deleteTimebox = (timeboxId) => {
-		const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
-		this.setState({timeboxes: timeboxes})
+		const d = new Delete()
+		d.deleteTimebox(timeboxId, this)
 	}
 
-	editTimebox = (timeboxId, timeboxData) => {
-		const timeboxes = this.state.timeboxes
-		const timebox = timeboxes.find(tb => tb.id === timeboxId)
-		const idx = timeboxes.indexOf(timebox)
-		timebox.title = timeboxData.title
-		timebox.goals = timeboxData.goals
-		timeboxes.splice(idx, 1, timebox)
-		this.setState({timeboxes: timeboxes})
+	editTimebox = (timebox) => {
+		const u = new Update()
+		u.editTimebox(timebox)
 	}
 
-	updateTimeboxStatus = (timeboxId, status) => {
-		const timeboxes = this.state.timeboxes.filter(tb => tb.id !== timeboxId)
-		this.setState({timeboxes: timeboxes})
-		getTasks(this.state.projectId, this)
+	closeTimebox = (timebox) => {
+		const u = new Update()
+		u.closeTimebox(timebox)
+		this.setState({timeboxes: []})
 	}
 
-  	addTheme = (themeData) => {
-		this.hideModal()
-  		this.setState(prevState => ({
-    		themes: [...this.state.themes, themeData],
-    		}));
+  	addTheme = (title) => {
+		const c = new Create()
+		c.addTheme(title, this)
   	}
 
   	deleteTheme = (themeId) => {
-		const data = {
-  			theme_id: themeId,
-  			project_id: this.state.projectId
-  		}
-		postRequest('/delete_theme', data)
-  		const themes = this.state.themes.filter(t => t.id !== themeId)
-  		this.setState(prevState => ({
-		    	themes: themes,
-		    }));
+		const d = new Delete()
+		d.deleteTheme(themeId, this)
   	}
 
   	filterByTheme = (theme) => {
@@ -213,7 +203,7 @@ class Board extends React.Component {
 											<span>Timebox</span>
 											<AddTimebox
 												projectId={this.state.projectId}
-												updateTimeboxes={this.newAddTimebox}
+												updateTimeboxes={this.addTimebox}
 											/>
 										</div>
 										<TimeboxesExplainer />
@@ -225,7 +215,7 @@ class Board extends React.Component {
 									timeboxes={this.state.timeboxes}
 									tasks={this.state.visibleTasks.filter(t => t.timebox !== 'Backlog')}
 									projectId={this.state.projectId}
-									updateTimeboxStatus={this.updateTimeboxStatus}
+									closeTimebox={this.closeTimebox}
 								/>
 								<Backlog
 									projectId={this.state.projectId}

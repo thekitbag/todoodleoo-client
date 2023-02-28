@@ -72,52 +72,10 @@ class Timebox extends React.Component {
   		}
   	}
 
-		deleteTimebox = async (timeboxId) => {
-			try {
-				const data = {
-					project_id: this.props.projectId,
-					timebox_id: timeboxId
-				}
-				postRequest('/delete_timebox', data)
-				this.props.deleteTimebox(timeboxId)
-			} catch (err) {
-				console.log(err)
-			}
-		}
-
 		editMode = () => {
 			this.setState({editing: true})
 		}
 
-		save = (timeboxId) => {
-			this.props.editTimebox(timeboxId, this.state)
-			this.setState({editing: false})
-			try {
-				const data = {
-					project_id: this.props.projectId,
-					timebox_id: timeboxId,
-					title: this.state.title,
-					goals: this.state.goals
-				}
-				postRequest('/edit_timebox', data)
-			} catch (err) {
-				console.log(err)
-			}
-		}
-
-		closeTimebox = () => {
-			try {
-				const data = {
-					project_id: this.props.projectId,
-					timebox_id: this.props.id,
-					status: 'Closed'
-				}
-				postRequest('/update_timebox_status', data)
-				this.props.updateTimeboxStatus(this.props.id, 'Closed')
-			} catch (err) {
-				console.log(err)
-			}
-		}
 
 
 	render() {
@@ -129,13 +87,13 @@ class Timebox extends React.Component {
 								<div className='timebox card' ref={provided.innerRef}>
 									<div className='card-body'>
 										{this.state.editing === true ?
-											<div className='btn btn-primary btn-sm' onClick={() => this.save(this.props.id)}>save</div> :
+											<div className='btn btn-primary btn-sm' onClick={() => this.props.editTimebox(this)}>save</div> :
 											<span className='edit-pencil-container'>
 												<img alt="edit-pencil" className='edit-pencil' onClick={() => this.editMode()} src={pencil}></img>
 											</span>
 										}
 										<span className='delete-icon-container'>
-											<img alt="delete-icon" className='delete-icon' onClick={() => this.deleteTimebox(this.props.id)} src={deleteIcon}></img>
+											<img alt="delete-icon" className='delete-icon' onClick={() => this.props.deleteTimebox(this.props.id)} src={deleteIcon}></img>
 										</span>
 										{this.state.editing === true ?
 											<form>
@@ -147,26 +105,24 @@ class Timebox extends React.Component {
 													required
 												/>
 											</form> :
-											<h4 className='card-title text-center'>{this.props.title}</h4>
+											<h4 className='card-title text-center'>{this.state.title}</h4>
 										}
 										<div className='row'>
 											<div className='timebox-status col-6'>Status:{this.props.status}</div>
 											<div className='col-6'>
-												<div className='btn btn-primary' style={{float:'right'}} onClick={this.closeTimebox}>Close Timebox</div>
+												<div className='btn btn-primary' style={{float:'right'}} onClick={() => this.props.closeTimebox(this)}>Close Timebox</div>
 											</div>
 										</div>
 										<div className='timebox-goals mx-auto mt-2'>
 											{this.state.editing === true ?
 												<form>
 													<div className='col-12 mx-auto mt-2 goals-group'>
-														<input className='form-control' value={this.state.goals[0]} type="text" onChange={event => this.setState({goals: [event.target.value, this.state.goals[1], this.state.goals[2]]})}/>
-														<input className='form-control' value={this.state.goals[1]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], event.target.value, this.state.goals[2]]})}/>
-														<input className='form-control' value={this.state.goals[2]} type="text" onChange={event => this.setState({goals: [this.state.goals[0], this.state.goals[1], event.target.value]})}/>
+														<input className='form-control' value={this.state.goal} type="text" onChange={event => this.setState({goal: event.target.value})}/>
 													</div>
 												</form> :			
 													'goal' in this.props && 
 													<div className='timebox-goal'>
-														{this.props.goal}
+														{this.state.goal}
 													</div>
 													}
 												
@@ -213,7 +169,7 @@ class Timeboxes extends React.Component {
 								projectId={this.props.projectId}
 								deleteTimebox={this.props.deleteTimebox}
 								editTimebox={this.props.editTimebox}
-								updateTimeboxStatus={this.props.updateTimeboxStatus}
+								closeTimebox={this.props.closeTimebox}
 								tasks={this.props.tasks.filter(t => t.timebox === timebox.title)}
 								{...timebox}
 							 />
