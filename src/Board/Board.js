@@ -9,11 +9,7 @@ import TimeboxesExplainer from '../Explainer/TimeboxesExplainer';
 import Modal from './../Forms/Modal';
 import { AddTimebox } from './../Forms/AddItem.js';
 import shareIcon from './../img/share_icon.png';
-import {handleThemeDrop,
-	handleTimeboxDrop,
-	handleBacklogDrop,
-	handleSameListReorder,
-	handleMoveBackToBacklogDrop
+import {handleDrop
 	} from './dragAndDrop'
 import { Create, Read, Update, Delete } from './crud';
 import { handleEditTaskResponse } from './responseHandlers';
@@ -21,6 +17,7 @@ import { handleEditTaskResponse } from './responseHandlers';
 class Board extends React.Component {
 	constructor(props) {
 	    super(props);
+		this.handleDrop = handleDrop.bind(this)
 	    this.state = {
 	        dataReceived: false,
 			showModalStatus: false,
@@ -121,122 +118,73 @@ class Board extends React.Component {
 		this.setState({dragging: true})
 	}
 
-	onDragEnd = async (result) => {
-
-		const {destination, source, draggableId} = result;
-	
-		if (!destination) {
-			//dragging somewhere non-droppable
-			return;
-		}
-		if (
-			//dragging and dropping into same place
-			destination.droppableId === source.droppableId &&
-			destination.index === source.index
-			) {
-			return;
-		}
-	
-		const taskId = Number(draggableId)
-		const obj = this.state.tasks.find(o => o.id === taskId);
-	
-		if (destination.droppableId.slice(0,5) === 'Theme') {
-			//landed on a theme, keep timebox the same and update the theme
-			handleThemeDrop(destination, taskId, obj, this)
-		}
-	
-		if (destination.droppableId.slice(0,7) === 'Timebox') {
-			//landed in a timebox - get timebox, remove from tasks, update timebox and put back in new position
-			handleTimeboxDrop(destination, result, taskId, obj, this)
-		  }
-	
-		if (destination.droppableId === 'Backlog') {
-			//landed in backlog - remove from source list, add to backlog and update state with all the updated lists
-			handleBacklogDrop(destination, result, taskId, this)
-	
-		const destinationList = this.state.tasks.filter(t => t.timebox === destination.droppableId);
-		const otherTasks = this.state.tasks.filter(t => t.timebox !== destination.droppableId);
-	
-		if (source.droppableId === destination.droppableId) {
-			//same list so simply take it out and put it bakc in new position
-			handleSameListReorder(source, result, obj, this)
-		} 
-		  
-		else {
-			//moving from timebox to backlog so remove from source, add to backlog at index and all tasks back to state
-			handleMoveBackToBacklogDrop(obj, this, otherTasks, destinationList)
-		}
-
-	  } else {
-		  console.log('Unexpected drop destination')
-	  }
-	
+	onDragEnd = (result) => {
+		this.handleDrop(result)
 	}
 
 	render() {
 		return   this.state.dataReceived === true ? (
-						<DragDropContext
-							onDragEnd = {this.onDragEnd}
-							onDragUpdate={this.onDragUpdate}
-							onDragStart={this.onDragStart}
-						>
-							<div className='board row' style={{margin: 0}}>
-								<h2 className='text-center mb-2'>{this.state.projectTitle}</h2>
-								<div className='btn btn-primary w-25 mx-auto mb-2' onClick = {() => this.showModal('share')}>
-									<img className='share-icon' src={shareIcon} alt="share icon"></img>
-								</div>
-								<Themes
-									themes={this.state.themes}
-									filterByTheme={this.filterByTheme}
+			<DragDropContext
+				onDragEnd = {this.onDragEnd}
+				onDragUpdate={this.onDragUpdate}
+				onDragStart={this.onDragStart}
+			>
+				<div className='board row' style={{margin: 0}}>
+					<h2 className='text-center mb-2'>{this.state.projectTitle}</h2>
+					<div className='btn btn-primary w-25 mx-auto mb-2' onClick = {() => this.showModal('share')}>
+						<img className='share-icon' src={shareIcon} alt="share icon"></img>
+					</div>
+					<Themes
+						themes={this.state.themes}
+						filterByTheme={this.filterByTheme}
+						projectId={this.state.projectId}
+						deleteTheme={this.deleteTheme}
+						filtering={this.state.filtering}
+						clearFilters={this.clearFilters}
+						showModal={() => this.showModal('theme')}
+						showThemesStatus={this.state.showThemesStatus}
+						showThemes={this.showThemes}
+						hideThemes={this.hideThemes}
+					/>
+					{this.state.timeboxes.length === 1 &&
+						<div className='component-container mb-2'>
+							<div className='component-title'>
+								<span>Timebox</span>
+								<AddTimebox
 									projectId={this.state.projectId}
-									deleteTheme={this.deleteTheme}
-									filtering={this.state.filtering}
-									clearFilters={this.clearFilters}
-									showModal={() => this.showModal('theme')}
-									showThemesStatus={this.state.showThemesStatus}
-									showThemes={this.showThemes}
-									hideThemes={this.hideThemes}
+									updateTimeboxes={this.addTimebox}
 								/>
-								{this.state.timeboxes.length === 1 &&
-									<div className='component-container mb-2'>
-										<div className='component-title'>
-											<span>Timebox</span>
-											<AddTimebox
-												projectId={this.state.projectId}
-												updateTimeboxes={this.addTimebox}
-											/>
-										</div>
-										<TimeboxesExplainer />
-									</div>
-								}
-								<Timeboxes
-									deleteTimebox={this.deleteTimebox}
-									editTimebox={this.editTimebox}
-									timeboxes={this.state.timeboxes}
-									tasks={this.state.visibleTasks.filter(t => t.timebox !== 'Backlog')}
-									projectId={this.state.projectId}
-									closeTimebox={this.closeTimebox}
-								/>
-								<Backlog
-									projectId={this.state.projectId}
-								 	tasks={this.state.visibleTasks}
-								  	deleteTask={this.deleteTask}
-									themes={this.state.themes}
-									editTask={this.editTask}
-									showAddTaskModal={() => this.showModal('task')}
-									title='Backlog'
-								/>
-								<Modal 
-									show={this.state.showModalStatus} 
-									hide={this.hideModal}
-									projectId={this.state.projectId}
-									addTask={this.addTask}
-									addTheme={this.addTheme}
-								/>
-						 	</div>
-						</DragDropContext>
-						)
-					: <div></div>
+							</div>
+							<TimeboxesExplainer />
+						</div>
+					}
+					<Timeboxes
+						deleteTimebox={this.deleteTimebox}
+						editTimebox={this.editTimebox}
+						timeboxes={this.state.timeboxes}
+						tasks={this.state.visibleTasks.filter(t => t.timebox !== 'Backlog')}
+						projectId={this.state.projectId}
+						closeTimebox={this.closeTimebox}
+					/>
+					<Backlog
+						projectId={this.state.projectId}
+						tasks={this.state.visibleTasks}
+						deleteTask={this.deleteTask}
+						themes={this.state.themes}
+						editTask={this.editTask}
+						showAddTaskModal={() => this.showModal('task')}
+						title='Backlog'
+					/>
+					<Modal 
+						show={this.state.showModalStatus} 
+						hide={this.hideModal}
+						projectId={this.state.projectId}
+						addTask={this.addTask}
+						addTheme={this.addTheme}
+					/>
+				</div>
+			</DragDropContext>
+			) : <div></div>
 	}
 }
 

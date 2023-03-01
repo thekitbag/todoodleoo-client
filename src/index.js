@@ -6,7 +6,7 @@ import Header from './Header/Header.js'
 import Login from './Login/Login.js'
 import Register from './Register/Register.js'
 import { Board } from './Board/Board.js'
-import { List } from './List/List.js'
+import { List } from './Board/List.js'
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from "./serviceWorker";
 

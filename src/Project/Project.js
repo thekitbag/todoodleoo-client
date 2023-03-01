@@ -36,7 +36,7 @@ class Boards extends React.Component {
 	}
 }
 
-class Lists extends React.Component {
+class Lists extends Boards {
 	render() {
 		return <div className='row'>
 					<div className='col-10 text-center mx-auto mt-2 border-secondary'>
@@ -116,8 +116,10 @@ class App extends React.Component {
 	state = {projects: [], dataReceived: false}
 
 	addProject = (projectsData) => {
-		this.setState(prevState => (
-			{projects: projectsData}))
+		const boards = projectsData.filter(p => p.project_type === 'board')
+		const lists = projectsData.filter(p => p.project_type === 'list')
+		this.setState({boards: boards});
+		 this.setState({lists: lists});
 	}
 
 	getProjects = async () => {

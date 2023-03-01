@@ -7,7 +7,7 @@ import plusIcon from './../img/plus_icon.png';
 
 const BacklogExplainer = (props) => {
 	return 	<div className='col-12 new-user-copy'>
-				<p>Hit '+' to add a new task</p>
+				<p>Hit '+' to add a new card</p>
 			</div>
 }
 

@@ -68,8 +68,56 @@ const handleMoveBackToBacklogDrop = (obj, cls, otherTasks, destinationList) => {
     })
 }
 
-export { handleThemeDrop,
-    handleTimeboxDrop,
-    handleBacklogDrop,
-    handleSameListReorder,
-    handleMoveBackToBacklogDrop };
+const handleDrop = function (result) {
+		const {destination, source, draggableId} = result;
+	
+		if (!destination) {
+			//dragging somewhere non-droppable
+			return;
+		}
+		if (
+			//dragging and dropping into same place
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
+			) {
+			return;
+		}
+	
+		const taskId = Number(draggableId)
+		const obj = this.state.tasks.find(o => o.id === taskId);
+	
+		if (destination.droppableId.slice(0,5) === 'Theme') {
+			//landed on a theme, keep timebox the same and update the theme
+			handleThemeDrop(destination, taskId, obj, this)
+		}
+	
+		if (destination.droppableId.slice(0,7) === 'Timebox') {
+			//landed in a timebox - get timebox, remove from tasks, update timebox and put back in new position
+			handleTimeboxDrop(destination, result, taskId, obj, this)
+		  }
+	
+		if (destination.droppableId === 'Backlog') {
+			//landed in backlog - remove from source list, add to backlog and update state with all the updated lists
+			handleBacklogDrop(destination, result, taskId, this)
+	
+		const destinationList = this.state.tasks.filter(t => t.timebox === destination.droppableId);
+		const otherTasks = this.state.tasks.filter(t => t.timebox !== destination.droppableId);
+	
+		if (source.droppableId === destination.droppableId) {
+			//same list so simply take it out and put it bakc in new position
+			handleSameListReorder(source, result, obj, this)
+		} 
+		  
+		else {
+			//moving from timebox to backlog so remove from source, add to backlog at index and all tasks back to state
+			handleMoveBackToBacklogDrop(obj, this, otherTasks, destinationList)
+		}
+
+	  } else {
+		console.log('Unexpected drop destination')
+	  }
+	
+	
+}
+
+export { handleDrop };

@@ -33,17 +33,9 @@ const Theme = (props) => {
 										ref={provided.innerRef}
 										isDraggingOver={snapshot.isDraggingOver}
 							>
-								<div
-
-									className='container theme'
-									style={{backgroundColor: props.data.color}}
-								>
-									<div
-										className='theme-title w-100'
-									>
-										<span>
-											{props.data.title}
-										</span>
+								<div className='container theme' style={{backgroundColor: props.data.color}}>
+									<div className='theme-title w-100'>
+										<span>{props.data.title}</span>
 									</div>
 									<div className='theme-delete-icon'>
 										<img
@@ -55,36 +47,35 @@ const Theme = (props) => {
 										</img>
 									</div>
 									{provided.placeholder}
-				  			</div>
-				  		</Container>
+				  				</div>
+				  			</Container>
 			  		)}
-					</Droppable>
-				</div>
+				</Droppable>
+			</div>
 }
 
 const ClearFilters = (props) => {
 	return <div className="col-12" onClick={props.clearFilters}>
-										<div
-											className='container card theme border border-dark col-12'
-											style={{backgroundColor: 'pink', height: 60}}
-										>
-											<h4 className='add-theme-title'>Clear Filters</h4>
-											<h3>x</h3>
-										</div>
-									</div>
+				<div
+					className='container card theme border border-dark col-12'
+					style={{backgroundColor: 'pink', height: 60}}
+				>
+					<h4 className='add-theme-title'>Clear Filters</h4>
+					<h3>x</h3>
+				</div>
+			</div>
 }
-
 
 class Themes extends React.Component {
 
 	constructor(props) {
-    super(props);
+		super(props);
 
-    this.state = {
-      themes: this.props.themes,
-      showAddThemeModalStatus: false
-    };
-  }
+		this.state = {
+		themes: this.props.themes,
+		showAddThemeModalStatus: false
+		};
+  	}
 
   static getDerivedStateFromProps(nextProps, prevState){
 			   if(nextProps.themes !== prevState.themes){
@@ -99,7 +90,7 @@ class Themes extends React.Component {
 			this.setState({filtering: false})
 		} else {
 			this.setState({filtering: true})
-	  }
+	  	}
 	}
 
 	showAddThemeModal = () => {
@@ -108,19 +99,15 @@ class Themes extends React.Component {
 
 	deleteTheme = (themeId) => {
 		this.props.deleteTheme(themeId)
-  };
+  	};
 
 	clearFilters = () => {
 		this.props.clearFilters()
 	}
 
-
-
 	render() {
 		if (this.props.showThemesStatus === false) {
-			return <div 	className='themes-container col-2'
-							id='themes-container'
-					>
+			return  <div className='themes-container col-2' id='themes-container'>
 						<div className='widget-title'>
 							<span>Themes</span>
 						</div>
@@ -146,20 +133,20 @@ class Themes extends React.Component {
 						>
 						</img>
 						<div className="themes-holder">
-									{this.props.themes.length === 0 &&
-										<ThemeExplainer />
-									}
-									{this.state.themes.map(theme =>
-										<Theme
-											projectId={this.props.projectId}
-											key={theme.id} data={theme}
-											filterByTheme={this.filterByTheme}
-											title={theme.title}
-											deleteTheme={this.deleteTheme}
-										/>)}
-									{this.props.filtering === true &&
-										<ClearFilters clearFilters={this.clearFilters} />
-									}
+							{this.props.themes.length === 0 &&
+								<ThemeExplainer />
+							}
+							{this.state.themes.map(theme =>
+								<Theme
+									projectId={this.props.projectId}
+									key={theme.id} data={theme}
+									filterByTheme={this.filterByTheme}
+									title={theme.title}
+									deleteTheme={this.deleteTheme}
+								/>)}
+							{this.props.filtering === true &&
+								<ClearFilters clearFilters={this.clearFilters} />
+							}
 						</div>
 						<div className='plus-icon-container text-center'>
 							<div className='icon-holder'>
@@ -176,9 +163,5 @@ class Themes extends React.Component {
 		}
 	}
 }
-
-
-		
-
 
 export default Themes
